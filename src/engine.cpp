@@ -440,7 +440,9 @@ static void ibus_unikey_engine_property_activate(IBusEngine* engine,
     // if Run setup
     else if (strcmp(prop_name, "RunSetupGUI") == 0)
     {
-        system(LIBEXECDIR "/ibus-setup-unikey &");
+        int ret = system(LIBEXECDIR "/ibus-setup-unikey &");
+        if (ret == -1)
+            return;
     } // END Run setup
 
     ibus_unikey_engine_reset(engine);
