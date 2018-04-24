@@ -4,8 +4,8 @@
 	<name>org.freedesktop.IBus.Unikey</name>
 	<description>Unikey Component</description>
 	<exec>${LIBEXECDIR}/ibus-engine-unikey --ibus</exec>
-	<version>@VERSION@</version>
-	<author>Ibus-Unikey &lt;ibusunikey@gmail.com&gt;</author>
+	<version>@PACKAGE_VERSION@</version>
+	<author>Ibus-Unikey Foundation &lt;ibusunikey@gmail.com&gt;</author>
 	<license>GPL</license>
 	<homepage>https://github.com/ibus-unikey/ibus-unikey</homepage>
 	<textdomain>ibus-unikey</textdomain>
