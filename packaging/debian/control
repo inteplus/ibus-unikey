@@ -7,7 +7,6 @@ Build-Depends:
  devscripts,
  debhelper (>= 9.2~),
  libibus-1.0-dev (>= 1.5.11),
- libx11-dev,
  libgtk2.0-dev,
 Standards-Version: 4.0.0
 Homepage: https://github.com/ibus-unikey/ibus-unikey
@@ -16,7 +15,6 @@ Package: ibus-unikey
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
  libibus-1.0-5,
- libx11-6,
  libgtk2.0-0
 Description: Vietnamese input method for Ibus Use Unikey engine.
  Ibus-Unikey is a Vietnamese input method for Ibus
