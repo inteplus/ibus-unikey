@@ -1,19 +1,28 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.0.2 FATAL_ERROR)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.0.2 FATAL_ERROR)
 
-set(PACKAGE_NAME      "ibus-unikey")
-set(PACKAGE_VERSION   "0.6.2")
-set(PACKAGE_STRING    "${PACKAGE_NAME} ${PACKAGE_VERSION}")
-set(PACKAGE_TARNAME   "${PACKAGE_NAME}-${PACKAGE_VERSION}")
-set(PACKAGE_BUGREPORT "https://github.com/ibus-unikey/ibus-unikey")
+SET(PACKAGE_NAME      "ibus-unikey")
 
-PROJECT (${PACKAGE_NAME} LANGUAGES CXX)
+PROJECT(${PACKAGE_NAME} LANGUAGES CXX)
 
 ADD_COMPILE_OPTIONS(-std=c++11 -Wall -Werror -g -O3 -pedantic -march=native -fPIC)
+
+SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+MESSAGE(STATUS "CMake module path: ${CMAKE_MODULE_PATH}")
+
+##################################################################
+# Versioning from GIT
+INCLUDE(Utilities)
+
+FIND_PACKAGE(Git)
+GetAndParseVersion()
+
+SET(PACKAGE_STRING    "${PACKAGE_NAME} ${PACKAGE_VERSION}")
+SET(PACKAGE_TARNAME   "${PACKAGE_NAME}-${PACKAGE_VERSION}")
+SET(PACKAGE_BUGREPORT "https://github.com/ibus-unikey/ibus-unikey")
 
 # ----- DEPENDENCIES ----- #
 INCLUDE(GNUInstallDirs)
 
-MESSAGE(STATUS "CMake module path: ${CMAKE_MODULE_PATH}")
 FIND_PACKAGE(PkgConfig)
 PKG_CHECK_MODULES(IBUS REQUIRED ibus-1.0)
 
