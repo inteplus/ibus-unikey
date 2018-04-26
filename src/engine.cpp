@@ -227,7 +227,11 @@ static void ibus_unikey_engine_focus_in(IBusEngine* engine)
 
 static void ibus_unikey_engine_focus_out(IBusEngine* engine)
 {
-    ibus_unikey_engine_reset(engine);
+    UnikeyResetBuf();
+    if (unikey->preeditstr->length() > 0)
+    {
+        unikey->preeditstr->clear();
+    }
 
     parent_class->focus_out(engine);
 }
