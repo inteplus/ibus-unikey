@@ -129,7 +129,6 @@ static void ibus_unikey_engine_load_config(IBusUnikeyEngine* unikey)
     unikey->ukopt.freeMarking           = DEFAULT_CONF_FREEMARKING;
     unikey->ukopt.macroEnabled          = DEFAULT_CONF_MACROENABLED;
     unikey->process_w_at_begin          = DEFAULT_CONF_PROCESSWATBEGIN;
-    unikey->mouse_capture               = DEFAULT_CONF_MOUSECAPTURE;
 
     if (ibus_unikey_config_get_string(config, CONFIG_SECTION, CONFIG_INPUTMETHOD, &str))
     {
@@ -172,9 +171,6 @@ static void ibus_unikey_engine_load_config(IBusUnikeyEngine* unikey)
 
     if (ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_PROCESSWATBEGIN, &b))
         unikey->process_w_at_begin = b;
-
-    if (ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_MOUSECAPTURE, &b))
-        unikey->mouse_capture = b;
 
     // load macro
     gchar* fn = get_macro_file();
@@ -407,28 +403,6 @@ static void ibus_unikey_engine_property_activate(IBusEngine* engine,
         } // end update state
     } // end MacroEnabled active
 
-    // MouseCapture active
-    else if (strcmp(prop_name, CONFIG_MOUSECAPTURE) == 0)
-    {
-        unikey->mouse_capture = !unikey->mouse_capture;
-
-        // update state
-        for (j = 0; j < unikey->menu_opt->properties->len ; j++)
-        {
-            prop = ibus_prop_list_get(unikey->menu_opt, j);
-            if (prop == NULL)
-                return;
-
-            else if (strcmp(ibus_property_get_key(prop), CONFIG_MOUSECAPTURE) == 0)
-            {
-                ibus_property_set_state(prop, (unikey->mouse_capture == 1)?
-                    PROP_STATE_CHECKED:PROP_STATE_UNCHECKED);
-                break;
-            }
-        } // end update state
-    } // end MouseCapture active
-
-
     // if Run setup
     else if (strcmp(prop_name, "RunSetupGUI") == 0)
     {
@@ -536,23 +510,6 @@ static void ibus_unikey_engine_create_property_list(IBusUnikeyEngine* unikey)
                              TRUE,
                              TRUE,
                              (unikey->ukopt.macroEnabled==1)?
-                             PROP_STATE_CHECKED:PROP_STATE_UNCHECKED,
-                             NULL);
-
-    if (ibus_prop_list_update_property(unikey->menu_opt, prop) == false)
-        ibus_prop_list_append(unikey->menu_opt, prop);
-
-    // --create and add MouseCapture property
-    label = ibus_text_new_from_static_string(_("Capture mouse event"));
-    tooltip = ibus_text_new_from_static_string(_("Auto send PreEdit string to Application when mouse move or click"));
-    prop = ibus_property_new(CONFIG_MOUSECAPTURE,
-                             PROP_TYPE_TOGGLE,
-                             label,
-                             "",
-                             tooltip,
-                             TRUE,
-                             TRUE,
-                             (unikey->mouse_capture==1)?
                              PROP_STATE_CHECKED:PROP_STATE_UNCHECKED,
                              NULL);
 
