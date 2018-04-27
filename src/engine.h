@@ -9,5 +9,4 @@ void ibus_unikey_init(IBusBus* bus);
 void ibus_unikey_exit();
 GType ibus_unikey_engine_get_type();
 
-#endif
-
+#endif // __ENGINE_H__

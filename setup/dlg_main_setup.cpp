@@ -1,9 +1,11 @@
-#include <gtk/gtk.h>
-#include <ibus.h>
+#include "dlg_main_setup.h"
+
 #include <string.h>
 
+#include <gtk/gtk.h>
+#include <ibus.h>
+
 #include "dlg_macro_table.h"
-#include "dlg_main_setup.h"
 #include "engine_const.h"
 #include "utils.h"
 

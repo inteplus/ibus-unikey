@@ -2,15 +2,18 @@
 #include "config.h"
 #endif
 
-#include <libintl.h>
-#include <stdlib.h>
-
-#include <sys/wait.h>
-#include <string.h>
-#include <ibus.h>
-
+#include "engine.h"
 #include "engine_const.h"
 #include "engine_private.h"
+
+#include <string.h>
+#include <cstdlib>
+
+#include <sys/wait.h>
+
+#include <libintl.h>
+#include <ibus.h>
+
 #include "utils.h"
 #include "unikey.h"
 #include "vnconv.h"

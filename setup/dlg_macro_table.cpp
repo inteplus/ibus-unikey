@@ -1,10 +1,12 @@
-#include <gtk/gtk.h>
+#include "dlg_macro_table.h"
+
 #include <string.h>
 
+#include <gtk/gtk.h>
 #include <libintl.h>
+
 #include "keycons.h"
 #include "mactab.h"
-#include "dlg_macro_table.h"
 
 #define _(str) gettext(str)
 
