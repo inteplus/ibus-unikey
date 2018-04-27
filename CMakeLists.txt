@@ -48,7 +48,7 @@ SET(IBUS_COMPONENT_DIR  "${CMAKE_INSTALL_FULL_DATADIR}/ibus/component")
 
 CONFIGURE_FILE(
   "${PROJECT_SOURCE_DIR}/src/unikey.xml.in"
-  "${PROJECT_SOURCE_DIR}/src/unikey.xml"
+  "${CMAKE_CURRENT_BINARY_DIR}/unikey.xml"
 )
 
 # ----- SOURCES ----- #
@@ -71,7 +71,7 @@ FILE(GLOB UI_SETUP_FILES
 )
 
 FILE(GLOB IBUS_COMPONENT_FILES
-  "src/unikey.xml"
+  "${CMAKE_CURRENT_BINARY_DIR}/unikey.xml"
 )
 
 FILE(GLOB IBUS_UNIKEY_ICONS_FILES
