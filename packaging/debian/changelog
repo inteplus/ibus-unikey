@@ -1,0 +1,20 @@
+ibus-unikey (0.6.2) unstable; urgency=medium
+
+  * Refactor code.
+
+ -- Vu Thanh Cong <vuthanhcong.ict@gmail.com>  Tue, 24 Apr 2018 11:50:49 +0700
+
+ibus-unikey (0.6.1) unstable; urgency=medium
+
+  * Fix compability with new IbusProperty
+  * Mouse capture commit text only if mouse move at least X pixels
+  * Fix ui
+
+ -- Le Quoc Tuan <mr.lequoctuan@gmail.com>  Wed, 29 Feb 2012 11:50:49 +0700
+
+ibus-unikey (0.3.0) unstable; urgency=medium
+
+  * Compatible with ibus 1.2
+  * Add some change from 0.2
+
+ -- Le Quoc Tuan <mr.lequoctuan@gmail.com>  Tue, 06 Oct 2009 11:50:49 +0700

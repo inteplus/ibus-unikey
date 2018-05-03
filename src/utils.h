@@ -1,5 +1,5 @@
-#if !defined (__UTILS_H)
-#define __UTILS_H
+#ifndef __UNIKEY_UTILS_H__
+#define __UNIKEY_UTILS_H__
 
 #include "ukengine.h"
 #include "engine_const.h"
@@ -36,6 +36,6 @@ void ibus_unikey_config_set_boolean(IBusConfig* config,
 
 #if !IBUS_CHECK_VERSION(1,3,99)
 char* ibus_property_get_key(IBusProperty *prop);
-#endif
+#endif // IBUS_CHECK_VERSION
 
-#endif
+#endif // __UNIKEY_UTILS_H__

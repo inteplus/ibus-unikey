@@ -1,0 +1,28 @@
+<?xml version=\"1.0\" encoding=\"utf-8\"?>
+<!-- filename: unikey.xml -->
+<component>
+	<name>org.freedesktop.IBus.Unikey</name>
+	<description>Unikey Component</description>
+	<exec>${LIBEXECDIR}/ibus-engine-unikey --ibus</exec>
+	<version>@PACKAGE_VERSION@</version>
+	<author>Ibus-Unikey Team &lt;ibusunikey@gmail.com&gt;</author>
+	<license>GPL</license>
+	<homepage>https://github.com/ibus-unikey/ibus-unikey</homepage>
+	<textdomain>ibus-unikey</textdomain>
+
+<engines>
+	<engine>
+		<symbol>&#xf4;</symbol>
+		<rank>99</rank>
+		<description>Unikey (Vietnamese Input Method)</description>
+		<language>vi</language>
+		<license>GPLv3</license>
+		<icon>/usr/share/ibus-unikey/icons/ibus-unikey.png</icon>
+		<author>Ibus-Unikey Team &lt;ibusunikey@gmail.com&gt;</author>
+		<setup></setup>
+		<layout>default</layout>
+		<name>Unikey</name>
+		<longname>Unikey</longname>
+	</engine>
+</engines>
+</component>

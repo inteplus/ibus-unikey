@@ -2,10 +2,11 @@
 #include "config.h"
 #endif
 
+#include <cstdlib>
+#include <cstdio>
+
 #include <libintl.h>
 #include <locale.h>
-#include <stdlib.h>
-#include <stdio.h>
 
 #include <ibus.h>
 #include "utils.h"
@@ -73,23 +74,6 @@ static void start_component(void)
     ibus_unikey_exit();
 }
 
-static void print_engines_xml(void)
-{
-    IBusComponent* component;
-    GString* output;
-
-    ibus_init();
-
-    component = ibus_unikey_get_component();
-    output = g_string_new("");
-
-    ibus_component_output_engines(component, output, 0);
-
-    fprintf(stdout, "%s", output->str);
-
-    g_string_free(output, TRUE);
-}
-
 int main(gint argc, gchar** argv)
 {
     GError* error = NULL;
@@ -106,22 +90,6 @@ int main(gint argc, gchar** argv)
     if (!g_option_context_parse(context, &argc, &argv, &error)) {
         g_print("Option parsing failed: %s\n", error->message);
         exit(-1);
-    }
-
-    if (xml)
-    {
-        print_engines_xml();
-        return 0;
-    }
-    else if (version)
-    {
-        g_print(PACKAGE_STRING " (engine component)"
-            "\n  Copyright (C) 2009 - 2012 Ubuntu-VN <http://www.ubuntu-vn.org>"
-            "\n  Author: Lê Quốc Tuấn <mr.lequoctuan@gmail.com>"
-            "\n  Homepage: <http://ibus-unikey.googlecode.com>"
-            "\n  License: GNU GPL3"
-            "\n");
-        return 0;
     }
 
     start_component();

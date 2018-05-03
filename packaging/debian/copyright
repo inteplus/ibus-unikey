@@ -1,0 +1,50 @@
+Format-Specification:
+Name: ibus-unikey
+Maintainer: Vu Thanh Cong <vuthanhcong.ict@gmail.com>
+Source: https://github.com/ibus-unikey/ibus-unikey
+
+Copyright: 2018 Vu Thanh Cong <vuthanhcong.ict@gmail.com>
+License: GPLv3
+
+Files: icons/*
+Copyright: 2009-2012 Le Quoc Tuan <mr.lequoctuan@gmail.com>
+License: GPLv3
+
+Files: po/*
+Copyright: 2009-2012 Le Quoc Tuan <mr.lequoctuan@gmail.com>
+License: GPLv3
+
+Files: setup/*
+Copyright: 2009-2012 Le Quoc Tuan <mr.lequoctuan@gmail.com>
+License: GPLv3
+
+Files: src/*
+Copyright: 2009-2012 Le Quoc Tuan <mr.lequoctuan@gmail.com>
+License: GPLv3
+
+Files: ukengine/*
+Copyright: 2000-2005 Pham Kim Long <unikey@gmail.com>
+License: GPLv3
+
+Files: packaging/debian/*
+Copyright: 2018 Vu Thanh Cong <vuthanhcong.ict@gmail.com>
+License: GPLv3
+
+License: GPLv3
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+.
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+.
+On Debian systems, the full text of the GNU General Public
+License version 3 can be found in the file
+`/usr/share/common-licenses/GPL-3'.

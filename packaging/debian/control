@@ -1,0 +1,21 @@
+Source: ibus-unikey
+Section: x11
+Priority: optional
+Maintainer: Vu Thanh Cong <vuthanhcong.ict@gmail.com>
+Build-Depends:
+ build-essential,
+ devscripts,
+ debhelper (>= 9.2~),
+ libibus-1.0-dev (>= 1.5.11),
+ libgtk2.0-dev,
+Standards-Version: 4.0.0
+Homepage: https://github.com/ibus-unikey/ibus-unikey
+
+Package: ibus-unikey
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ libibus-1.0-5,
+ libgtk2.0-0
+Description: Vietnamese input method for Ibus Use Unikey engine.
+ Ibus-Unikey is a Vietnamese input method for Ibus
+ Use Unikey engine to process keyevent.
