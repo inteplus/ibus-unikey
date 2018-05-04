@@ -18,6 +18,8 @@
 #include "unikey.h"
 #include "vnconv.h"
 
+#include "base/logging.h"
+
 #if !IBUS_CHECK_VERSION(1,2,99) // ibus below version 1.2.99 have problem with PROP_TYPE_NORMAL, use RADIO instead
 #define PROP_TYPE_NORMAL PROP_TYPE_RADIO
 #endif
@@ -78,6 +80,7 @@ GType ibus_unikey_engine_get_type(void)
 
 void ibus_unikey_init(IBusBus* bus)
 {
+    BLOG_DEBUG("ibus_unikey_init");
     UnikeySetup();
     config = ibus_bus_get_config(bus);
 
@@ -86,6 +89,7 @@ void ibus_unikey_init(IBusBus* bus)
 
 void ibus_unikey_exit()
 {
+    BLOG_DEBUG("ibus_unikey_exit");
     UnikeyCleanup();
 }
 
@@ -119,6 +123,7 @@ static void ibus_unikey_engine_init(IBusUnikeyEngine* unikey)
 
 static void ibus_unikey_engine_load_config(IBusUnikeyEngine* unikey)
 {
+    BLOG_DEBUG("ibus_unikey_engine_load_config");
     gchar* str;
     gboolean b;
     guint i;
@@ -207,6 +212,8 @@ static void ibus_unikey_engine_destroy(IBusUnikeyEngine* unikey)
 
 static void ibus_unikey_engine_focus_in(IBusEngine* engine)
 {
+    BLOG_DEBUG("ibus_unikey_engine_focus_in");
+    BLOG_INFO("ibus_unikey_engine_focus_in INFO");
     unikey = (IBusUnikeyEngine*)engine;
 
     if (unikey->last_load_config < config_time)
@@ -226,6 +233,7 @@ static void ibus_unikey_engine_focus_in(IBusEngine* engine)
 
 static void ibus_unikey_engine_focus_out(IBusEngine* engine)
 {
+    BLOG_DEBUG("ibus_unikey_engine_focus_out");
     UnikeyResetBuf();
     if (unikey->preeditstr->length() > 0)
     {
@@ -237,6 +245,7 @@ static void ibus_unikey_engine_focus_out(IBusEngine* engine)
 
 static void ibus_unikey_engine_reset(IBusEngine* engine)
 {
+    BLOG_DEBUG("ibus_unikey_engine_reset");
     unikey = (IBusUnikeyEngine*)engine;
 
     UnikeyResetBuf();
@@ -252,11 +261,13 @@ static void ibus_unikey_engine_reset(IBusEngine* engine)
 
 static void ibus_unikey_engine_enable(IBusEngine* engine)
 {
+    BLOG_DEBUG("ibus_unikey_engine_enable");
     parent_class->enable(engine);
 }
 
 static void ibus_unikey_engine_disable(IBusEngine* engine)
 {
+    BLOG_DEBUG("ibus_unikey_engine_disable");
     parent_class->disable(engine);
 }
 
