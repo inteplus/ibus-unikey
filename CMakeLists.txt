@@ -37,8 +37,8 @@ FIND_PACKAGE(Gettext REQUIRED)
 
 INCLUDE_DIRECTORIES(${IBUS_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${GTK2_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/ukengine)
-INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src)
+INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src/third_party/ukengine)
+INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src/unix/ibus)
 
 SET(LIBEXECDIR          "${CMAKE_INSTALL_FULL_LIBEXECDIR}/${PACKAGE_NAME}")
 SET(LOCALEDIR           "${CMAKE_INSTALL_FULL_LOCALEDIR}")
@@ -47,27 +47,27 @@ SET(UI_DATA_DIR         "${PKGDATADIR}/ui")
 SET(IBUS_COMPONENT_DIR  "${CMAKE_INSTALL_FULL_DATADIR}/ibus/component")
 
 CONFIGURE_FILE(
-  "${PROJECT_SOURCE_DIR}/src/unikey.xml.in"
+  "${PROJECT_SOURCE_DIR}/src/unix/ibus/unikey.xml.in"
   "${CMAKE_CURRENT_BINARY_DIR}/unikey.xml"
 )
 
 # ----- SOURCES ----- #
 
 FILE(GLOB UKENGINE_SRC
-  "ukengine/*.cpp"
+  "src/third_party/ukengine/*.cpp"
 )
 
 FILE(GLOB IBUS_UNIKEY_ENGINE_SRC
-  "src/*.cpp"
+  "src/unix/ibus/*.cpp"
 )
 
 FILE(GLOB IBUS_UNIKEY_SETUP_SRC
-  "setup/*.cpp"
-  "src/utils.cpp"
+  "src/gui/setup_dialog/*.cpp"
+  "src/unix/ibus/utils.cpp"
 )
 
 FILE(GLOB UI_SETUP_FILES
-  "setup/*.ui"
+  "src/gui/setup_dialog/*.ui"
 )
 
 FILE(GLOB IBUS_COMPONENT_FILES
@@ -75,7 +75,7 @@ FILE(GLOB IBUS_COMPONENT_FILES
 )
 
 FILE(GLOB IBUS_UNIKEY_ICONS_FILES
-  "icons/ibus-unikey.png"
+  "src/data/images/ibus-unikey.png"
 )
 
 FILE(GLOB IBUS_UNIKEY_PO_FILES
