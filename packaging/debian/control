@@ -8,6 +8,7 @@ Build-Depends:
  debhelper (>= 9.2~),
  libibus-1.0-dev (>= 1.5.11),
  libgtk2.0-dev,
+ libspdlog-dev (>= 1.6),
 Standards-Version: 4.0.0
 Homepage: https://github.com/ibus-unikey/ibus-unikey
 

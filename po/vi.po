@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ibus-unikey 0.6.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-02 15:04+0700\n"
+"POT-Creation-Date: 2018-05-04 11:26+0700\n"
 "PO-Revision-Date: 2012-02-29 10:15+0700\n"
 "Last-Translator: Lê Quốc Tuấn <mr.lequoctuan@gmail.com>\n"
 "Language-Team: Vietnamese\n"
@@ -20,111 +20,111 @@ msgstr ""
 "X-Poedit-Country: VIET NAM\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: setup/dlg_macro_table.cpp:15
+#: src/gui/setup_dialog/dlg_macro_table.cpp:15
 msgid "(replace text)"
 msgstr "(chuỗi thay thế)"
 
-#: setup/setup-main.ui:59
+#: src/gui/setup_dialog/setup-main.ui:59
 msgid "<b>Input/Output</b>"
 msgstr "<b>Nhập/Xuất</b>"
 
-#: setup/setup-main.ui:155
+#: src/gui/setup_dialog/setup-main.ui:155
 msgid "<b>Options</b>"
 msgstr "<b>Tùy chọn</b>"
 
-#: setup/setup-main.ui:224
+#: src/gui/setup_dialog/setup-main.ui:224
 msgid "Allow type with more _freedom"
 msgstr "Cho phép bỏ dấu _tự do"
 
-#: setup/setup-main.ui:192
+#: src/gui/setup_dialog/setup-main.ui:192
 msgid "Auto _restore keys with invalid words"
 msgstr "Tự động _trả phím khi gõ từ không hợp lệ"
 
-#: setup/dlg_macro_table.cpp:398
+#: src/gui/setup_dialog/dlg_macro_table.cpp:398
 msgid "Choose file to export"
 msgstr "Chọn tập tin để xuất"
 
-#: setup/dlg_macro_table.cpp:348
+#: src/gui/setup_dialog/dlg_macro_table.cpp:348
 msgid "Choose file to import"
 msgstr "Chọn tập tin để nhập"
 
-#: src/engine.cpp:555
+#: src/unix/ibus/engine.cpp:555
 msgid "Choose input method"
 msgstr "Chọn kiểu gõ"
 
-#: src/engine.cpp:576
+#: src/unix/ibus/engine.cpp:576
 msgid "Choose output charset"
 msgstr "Chọn bảng mã"
 
-#: setup/setup-macro.ui:145
+#: src/gui/setup_dialog/setup-macro.ui:145
 msgid "Delete _all"
 msgstr "Xóa _hết"
 
-#: src/engine.cpp:506
+#: src/unix/ibus/engine.cpp:506
 msgid "Enable Macro"
 msgstr "Bật gõ tắt"
 
-#: setup/setup-main.ui:244
+#: src/gui/setup_dialog/setup-main.ui:244
 msgid "Enable _macro"
 msgstr "Bật gõ tắt"
 
-#: setup/setup-main.ui:176
+#: src/gui/setup_dialog/setup-main.ui:176
 msgid "Enable _spell check"
 msgstr "Bật kiểm tra _chính tả"
 
-#: src/engine.cpp:489
+#: src/unix/ibus/engine.cpp:489
 msgid "Enable spell check"
 msgstr "Bật kiểm tra chính tả"
 
-#: src/engine.cpp:531
+#: src/unix/ibus/engine.cpp:531
 msgid "Full setup utility for IBus-Unikey"
 msgstr "Tiện ích cài đặt đầy đủ cho IBus-Unikey"
 
-#: src/engine.cpp:530
+#: src/unix/ibus/engine.cpp:530
 msgid "Full setup..."
 msgstr "Cài đặt đầy đủ..."
 
-#: setup/setup-main.ui:13
+#: src/gui/setup_dialog/setup-main.ui:13
 msgid "IBus-Unikey Setup"
 msgstr "Cài đặt IBus-Unikey"
 
-#: src/engine.cpp:490
+#: src/unix/ibus/engine.cpp:490
 msgid "If enable, you can decrease mistake when typing"
 msgstr "Nếu bật, bạn có thể giảm lỗi chính tả khi gõ"
 
-#: setup/setup-main.ui:84
+#: src/gui/setup_dialog/setup-main.ui:84
 msgid "Input method:"
 msgstr "Kiểu gõ: "
 
-#: setup/setup-macro.ui:13
+#: src/gui/setup_dialog/setup-macro.ui:13
 msgid "Macro table definition"
 msgstr "Định nghĩa bảng gõ tắt"
 
-#: src/engine.cpp:591
+#: src/unix/ibus/engine.cpp:591
 msgid "Options"
 msgstr "Tùy chọn"
 
-#: src/engine.cpp:592
+#: src/unix/ibus/engine.cpp:592
 msgid "Options for Unikey"
 msgstr "Tùy chọn cho Unikey"
 
-#: setup/setup-main.ui:113
+#: src/gui/setup_dialog/setup-main.ui:113
 msgid "Output charset: "
 msgstr "Bảng mã: "
 
-#: setup/setup-main.ui:283
+#: src/gui/setup_dialog/setup-main.ui:283
 msgid "Process _W at word begin"
 msgstr "Xử lý phím _W ở đầu từ"
 
-#: setup/setup-macro.ui:102
+#: src/gui/setup_dialog/setup-macro.ui:102
 msgid "Replace with"
 msgstr "Thay thế bởi"
 
-#: setup/setup-main.ui:208
+#: src/gui/setup_dialog/setup-main.ui:208
 msgid "Use oà, _uý (instead of òa, úy)"
 msgstr "Dùng oà, _uý (thay vì òa, úy)"
 
-#: src/utils.cpp:14
+#: src/unix/ibus/utils.cpp:14
 msgid ""
 "Vietnamese Input Method Engine for IBus using Unikey Engine\n"
 "Usage:\n"
@@ -146,19 +146,19 @@ msgstr ""
 " - Dùng <Shift>+<Space> hoặc <Shift>+<Shift> để khôi phục phím.\n"
 " - Dùng <Control> để xác nhận từ (kết thúc từ)."
 
-#: setup/setup-macro.ui:86
+#: src/gui/setup_dialog/setup-macro.ui:86
 msgid "Word"
 msgstr "Từ"
 
-#: setup/setup-main.ui:260
+#: src/gui/setup_dialog/setup-main.ui:260
 msgid "_Edit macro"
 msgstr "_Sửa bảng gõ tắt"
 
-#: setup/setup-macro.ui:187
+#: src/gui/setup_dialog/setup-macro.ui:187
 msgid "_Export..."
 msgstr "_Xuất..."
 
-#: setup/setup-macro.ui:172
+#: src/gui/setup_dialog/setup-macro.ui:172
 msgid "_Import..."
 msgstr "_Nhập..."
 

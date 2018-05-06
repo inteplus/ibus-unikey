@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-02 15:13+0700\n"
+"POT-Creation-Date: 2018-05-04 11:26+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,43 +17,43 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/engine.cpp:489
+#: src/unix/ibus/engine.cpp:489
 msgid "Enable spell check"
 msgstr ""
 
-#: src/engine.cpp:490
+#: src/unix/ibus/engine.cpp:490
 msgid "If enable, you can decrease mistake when typing"
 msgstr ""
 
-#: src/engine.cpp:506
+#: src/unix/ibus/engine.cpp:506
 msgid "Enable Macro"
 msgstr ""
 
-#: src/engine.cpp:530
+#: src/unix/ibus/engine.cpp:530
 msgid "Full setup..."
 msgstr ""
 
-#: src/engine.cpp:531
+#: src/unix/ibus/engine.cpp:531
 msgid "Full setup utility for IBus-Unikey"
 msgstr ""
 
-#: src/engine.cpp:555
+#: src/unix/ibus/engine.cpp:555
 msgid "Choose input method"
 msgstr ""
 
-#: src/engine.cpp:576
+#: src/unix/ibus/engine.cpp:576
 msgid "Choose output charset"
 msgstr ""
 
-#: src/engine.cpp:591
+#: src/unix/ibus/engine.cpp:591
 msgid "Options"
 msgstr ""
 
-#: src/engine.cpp:592
+#: src/unix/ibus/engine.cpp:592
 msgid "Options for Unikey"
 msgstr ""
 
-#: src/utils.cpp:14
+#: src/unix/ibus/utils.cpp:14
 msgid ""
 "Vietnamese Input Method Engine for IBus using Unikey Engine\n"
 "Usage:\n"
@@ -66,86 +66,86 @@ msgid ""
 "  - Use <Control> to commit a word."
 msgstr ""
 
-#: setup/dlg_macro_table.cpp:15
+#: src/gui/setup_dialog/dlg_macro_table.cpp:15
 msgid "(replace text)"
 msgstr ""
 
-#: setup/dlg_macro_table.cpp:348
+#: src/gui/setup_dialog/dlg_macro_table.cpp:348
 msgid "Choose file to import"
 msgstr ""
 
-#: setup/dlg_macro_table.cpp:398
+#: src/gui/setup_dialog/dlg_macro_table.cpp:398
 msgid "Choose file to export"
 msgstr ""
 
-#: setup/setup-main.ui:13
+#: src/gui/setup_dialog/setup-main.ui:13
 msgid "IBus-Unikey Setup"
 msgstr ""
 
-#: setup/setup-main.ui:59
+#: src/gui/setup_dialog/setup-main.ui:59
 msgid "<b>Input/Output</b>"
 msgstr ""
 
-#: setup/setup-main.ui:84
+#: src/gui/setup_dialog/setup-main.ui:84
 msgid "Input method:"
 msgstr ""
 
-#: setup/setup-main.ui:113
+#: src/gui/setup_dialog/setup-main.ui:113
 msgid "Output charset: "
 msgstr ""
 
-#: setup/setup-main.ui:155
+#: src/gui/setup_dialog/setup-main.ui:155
 msgid "<b>Options</b>"
 msgstr ""
 
-#: setup/setup-main.ui:176
+#: src/gui/setup_dialog/setup-main.ui:176
 msgid "Enable _spell check"
 msgstr ""
 
-#: setup/setup-main.ui:192
+#: src/gui/setup_dialog/setup-main.ui:192
 msgid "Auto _restore keys with invalid words"
 msgstr ""
 
-#: setup/setup-main.ui:208
+#: src/gui/setup_dialog/setup-main.ui:208
 msgid "Use oà, _uý (instead of òa, úy)"
 msgstr ""
 
-#: setup/setup-main.ui:224
+#: src/gui/setup_dialog/setup-main.ui:224
 msgid "Allow type with more _freedom"
 msgstr ""
 
-#: setup/setup-main.ui:244
+#: src/gui/setup_dialog/setup-main.ui:244
 msgid "Enable _macro"
 msgstr ""
 
-#: setup/setup-main.ui:260
+#: src/gui/setup_dialog/setup-main.ui:260
 msgid "_Edit macro"
 msgstr ""
 
-#: setup/setup-main.ui:283
+#: src/gui/setup_dialog/setup-main.ui:283
 msgid "Process _W at word begin"
 msgstr ""
 
-#: setup/setup-macro.ui:13
+#: src/gui/setup_dialog/setup-macro.ui:13
 msgid "Macro table definition"
 msgstr ""
 
-#: setup/setup-macro.ui:86
+#: src/gui/setup_dialog/setup-macro.ui:86
 msgid "Word"
 msgstr ""
 
-#: setup/setup-macro.ui:102
+#: src/gui/setup_dialog/setup-macro.ui:102
 msgid "Replace with"
 msgstr ""
 
-#: setup/setup-macro.ui:145
+#: src/gui/setup_dialog/setup-macro.ui:145
 msgid "Delete _all"
 msgstr ""
 
-#: setup/setup-macro.ui:172
+#: src/gui/setup_dialog/setup-macro.ui:172
 msgid "_Import..."
 msgstr ""
 
-#: setup/setup-macro.ui:187
+#: src/gui/setup_dialog/setup-macro.ui:187
 msgid "_Export..."
 msgstr ""

@@ -1,6 +1,6 @@
-src/engine.cpp
-src/utils.cpp
+src/unix/ibus/engine.cpp
+src/unix/ibus/utils.cpp
 
-setup/dlg_macro_table.cpp
-setup/setup-main.ui
-setup/setup-macro.ui
+src/gui/setup_dialog/dlg_macro_table.cpp
+src/gui/setup_dialog/setup-main.ui
+src/gui/setup_dialog/setup-macro.ui
