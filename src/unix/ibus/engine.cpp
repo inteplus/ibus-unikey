@@ -42,7 +42,7 @@ static unsigned char WordAutoCommit[] =
 };
 
 static IBusEngineClass* parent_class = NULL;
-static IBusConfig*      config       = NULL;
+static GSettings*       settings     = NULL;
 static guint            config_time  = 0;
 
 static IBusUnikeyEngine* unikey; // current (focus) unikey engine
@@ -78,9 +78,9 @@ void ibus_unikey_init(IBusBus* bus)
 {
     BLOG_DEBUG("ibus_unikey_init");
     UnikeySetup();
-    config = ibus_bus_get_config(bus);
+    settings = g_settings_new("org.freedesktop.ibus.engine.unikey");
 
-    g_signal_connect(config, "value-changed", G_CALLBACK(ibus_unikey_config_value_changed), NULL);
+    g_signal_connect(settings, "changed", G_CALLBACK(ibus_unikey_config_value_changed), NULL);
 }
 
 void ibus_unikey_exit()
@@ -136,7 +136,7 @@ static void ibus_unikey_engine_load_config(IBusUnikeyEngine* unikey)
     unikey->ukopt.macroEnabled          = DEFAULT_CONF_MACROENABLED;
     unikey->process_w_at_begin          = DEFAULT_CONF_PROCESSWATBEGIN;
 
-    if (ibus_unikey_config_get_string(config, CONFIG_SECTION, CONFIG_INPUTMETHOD, &str))
+    if (ibus_unikey_config_get_string(settings, CONFIG_INPUTMETHOD, &str))
     {
         for (i = 0; i < NUM_INPUTMETHOD; i++)
         {
@@ -148,7 +148,7 @@ static void ibus_unikey_engine_load_config(IBusUnikeyEngine* unikey)
         }
     }
 
-    if (ibus_unikey_config_get_string(config, CONFIG_SECTION, CONFIG_OUTPUTCHARSET, &str))
+    if (ibus_unikey_config_get_string(settings, CONFIG_OUTPUTCHARSET, &str))
     {
         for (i = 0; i < NUM_OUTPUTCHARSET; i++)
         {
@@ -160,22 +160,22 @@ static void ibus_unikey_engine_load_config(IBusUnikeyEngine* unikey)
         }
     }
 
-    if (ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_FREEMARKING, &b))
+    if (ibus_unikey_config_get_boolean(settings, CONFIG_FREEMARKING, &b))
         unikey->ukopt.freeMarking = b;
 
-    if (ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_MODERNSTYLE, &b))
+    if (ibus_unikey_config_get_boolean(settings, CONFIG_MODERNSTYLE, &b))
         unikey->ukopt.modernStyle = b;
 
-    if (ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_MACROENABLED, &b))
+    if (ibus_unikey_config_get_boolean(settings, CONFIG_MACROENABLED, &b))
         unikey->ukopt.macroEnabled = b;
 
-    if (ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_SPELLCHECK, &b))
+    if (ibus_unikey_config_get_boolean(settings, CONFIG_SPELLCHECK, &b))
         unikey->ukopt.spellCheckEnabled = b;
 
-    if (ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_AUTORESTORENONVN, &b))
+    if (ibus_unikey_config_get_boolean(settings, CONFIG_AUTORESTORENONVN, &b))
         unikey->ukopt.autoNonVnRestore = b;
 
-    if (ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_PROCESSWATBEGIN, &b))
+    if (ibus_unikey_config_get_boolean(settings, CONFIG_PROCESSWATBEGIN, &b))
         unikey->process_w_at_begin = b;
 
     // load macro
@@ -258,17 +258,12 @@ static void ibus_unikey_engine_disable(IBusEngine* engine)
     parent_class->disable(engine);
 }
 
-static void ibus_unikey_config_value_changed(IBusConfig *config,
-                                             gchar      *section,
-                                             gchar      *name,
-                                             GVariant   *value,
+static void ibus_unikey_config_value_changed(GSettings *settings,
+                                             const gchar *key,
                                              gpointer    user_data)
 {
     BLOG_DEBUG("ibus_unikey_config_value_changed");
-    if (strcmp(section, CONFIG_SECTION) == 0)
-    {
-        config_time += 1;
-    }
+    config_time += 1;
 }
 
 static void ibus_unikey_engine_property_activate(IBusEngine* engine,

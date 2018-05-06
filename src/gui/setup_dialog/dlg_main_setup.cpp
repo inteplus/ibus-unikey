@@ -2,6 +2,7 @@
 
 #include <string.h>
 
+#include <gio/gio.h>
 #include <gtk/gtk.h>
 #include <ibus.h>
 
@@ -15,7 +16,7 @@ static void output_charset_combo_box_changed_cb(GtkComboBox*, gpointer);
 static void update_config_toggle_cb(GtkToggleButton*, gpointer);
 static void macro_edit_button_cb(GtkButton*, gpointer);
 
-static IBusConfig* config;
+static GSettings* settings;
 
 GtkWidget* unikey_main_setup_dialog_new()
 {
@@ -26,7 +27,7 @@ GtkWidget* unikey_main_setup_dialog_new()
     ibus_init();
     bus = ibus_bus_new();
     g_signal_connect(bus, "disconnected", G_CALLBACK(gtk_main_quit), NULL);
-    config = ibus_bus_get_config(bus);
+    settings = g_settings_new("org.freedesktop.ibus.engine.unikey");
     
     builder = gtk_builder_new();
     gtk_builder_add_from_file(builder, UI_DATA_DIR "/setup-main.ui", NULL);
@@ -70,7 +71,7 @@ void init_dialog_controls(GtkBuilder* builder)
     wid = GTK_WIDGET(gtk_builder_get_object(builder, "cbb_input_method"));
     g_signal_connect(wid, "changed", G_CALLBACK(input_method_combo_box_changed_cb), NULL);
     i = 0;
-    if (ibus_unikey_config_get_string(config, CONFIG_SECTION, CONFIG_INPUTMETHOD, &str))
+    if (ibus_unikey_config_get_string(settings, CONFIG_INPUTMETHOD, &str))
     {   
         for (; i < NUM_INPUTMETHOD; i++)
         {   
@@ -82,7 +83,7 @@ void init_dialog_controls(GtkBuilder* builder)
     wid = GTK_WIDGET(gtk_builder_get_object(builder, "cbb_output_charset"));
     g_signal_connect(wid, "changed", G_CALLBACK(output_charset_combo_box_changed_cb), NULL);
     i = 0;
-    if (ibus_unikey_config_get_string(config, CONFIG_SECTION, CONFIG_OUTPUTCHARSET, &str))
+    if (ibus_unikey_config_get_string(settings, CONFIG_OUTPUTCHARSET, &str))
     {   
         for (; i < NUM_OUTPUTCHARSET; i++)
         {   
@@ -93,37 +94,37 @@ void init_dialog_controls(GtkBuilder* builder)
 
     wid = GTK_WIDGET(gtk_builder_get_object(builder, "check_spellcheck"));
     g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_SPELLCHECK);
-    if (!ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_SPELLCHECK, &b))
+    if (!ibus_unikey_config_get_boolean(settings, CONFIG_SPELLCHECK, &b))
         b = DEFAULT_CONF_SPELLCHECK;
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wid), b);
 
     wid = GTK_WIDGET(gtk_builder_get_object(builder, "check_autorestorenonvn"));
     g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_AUTORESTORENONVN);
-    if (!ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_AUTORESTORENONVN, &b))
+    if (!ibus_unikey_config_get_boolean(settings, CONFIG_AUTORESTORENONVN, &b))
         b = DEFAULT_CONF_AUTONONVNRESTORE;
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wid), b);
 
     wid = GTK_WIDGET(gtk_builder_get_object(builder, "check_modernstyle"));
     g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_MODERNSTYLE);
-    if (!ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_MODERNSTYLE, &b))
+    if (!ibus_unikey_config_get_boolean(settings, CONFIG_MODERNSTYLE, &b))
         b = DEFAULT_CONF_MODERNSTYLE;
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wid), b);
 
     wid = GTK_WIDGET(gtk_builder_get_object(builder, "check_freemarking"));
     g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_FREEMARKING);
-    if (!ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_FREEMARKING, &b))
+    if (!ibus_unikey_config_get_boolean(settings, CONFIG_FREEMARKING, &b))
         b = DEFAULT_CONF_FREEMARKING;
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wid), b);
 
     wid = GTK_WIDGET(gtk_builder_get_object(builder, "check_macroenable"));
     g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_MACROENABLED);
-    if (!ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_MACROENABLED, &b))
+    if (!ibus_unikey_config_get_boolean(settings, CONFIG_MACROENABLED, &b))
         b = DEFAULT_CONF_MACROENABLED;
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wid), b);
 
     wid = GTK_WIDGET(gtk_builder_get_object(builder, "check_processwatbegin"));
     g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_PROCESSWATBEGIN);
-    if (!ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_PROCESSWATBEGIN, &b))
+    if (!ibus_unikey_config_get_boolean(settings, CONFIG_PROCESSWATBEGIN, &b))
         b = DEFAULT_CONF_PROCESSWATBEGIN;
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wid), b);
 
@@ -134,19 +135,19 @@ void init_dialog_controls(GtkBuilder* builder)
 void input_method_combo_box_changed_cb(GtkComboBox* cbb, gpointer user_data)
 {
     gint s = gtk_combo_box_get_active(cbb);
-    ibus_unikey_config_set_string(config, CONFIG_SECTION, CONFIG_INPUTMETHOD, Unikey_IMNames[s]);
+    ibus_unikey_config_set_string(settings, CONFIG_INPUTMETHOD, Unikey_IMNames[s]);
 }
 
 void output_charset_combo_box_changed_cb(GtkComboBox* cbb, gpointer user_data)
 {
     gint s = gtk_combo_box_get_active(cbb);
-    ibus_unikey_config_set_string(config, CONFIG_SECTION, CONFIG_OUTPUTCHARSET, Unikey_OCNames[s]);
+    ibus_unikey_config_set_string(settings, CONFIG_OUTPUTCHARSET, Unikey_OCNames[s]);
 }
 
 void update_config_toggle_cb(GtkToggleButton* btn, gpointer user_data)
 {
     gboolean b = gtk_toggle_button_get_active(btn);
-    ibus_unikey_config_set_boolean(config, CONFIG_SECTION, (gchar*)user_data, b);
+    ibus_unikey_config_set_boolean(settings, (gchar*)user_data, b);
 }
 
 void macro_edit_button_cb(GtkButton* btn, gpointer user_data)
