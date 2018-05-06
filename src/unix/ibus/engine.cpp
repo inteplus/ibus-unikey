@@ -95,6 +95,7 @@ void ibus_unikey_exit()
 
 static void ibus_unikey_engine_class_init(IBusUnikeyEngineClass* klass)
 {
+    BLOG_DEBUG("ibus_unikey_engine_class_init");
     GObjectClass* object_class         = G_OBJECT_CLASS(klass);
     IBusObjectClass* ibus_object_class = IBUS_OBJECT_CLASS(klass);
     IBusEngineClass* engine_class      = IBUS_ENGINE_CLASS(klass);
@@ -115,6 +116,7 @@ static void ibus_unikey_engine_class_init(IBusUnikeyEngineClass* klass)
 
 static void ibus_unikey_engine_init(IBusUnikeyEngine* unikey)
 {
+    BLOG_DEBUG("ibus_unikey_engine_init");
     ibus_unikey_engine_load_config(unikey);
 
     unikey->preeditstr = new std::string();
@@ -192,6 +194,7 @@ static GObject* ibus_unikey_engine_constructor(GType type,
                                                guint n_construct_params,
                                                GObjectConstructParam* construct_params)
 {
+    BLOG_DEBUG("ibus_unikey_engine_constructor");
     IBusUnikeyEngine* unikey;
 
     unikey = (IBusUnikeyEngine*)
@@ -204,6 +207,7 @@ static GObject* ibus_unikey_engine_constructor(GType type,
 
 static void ibus_unikey_engine_destroy(IBusUnikeyEngine* unikey)
 {
+    BLOG_DEBUG("ibus_unikey_engine_destroy");
     delete unikey->preeditstr;
     g_object_unref(unikey->prop_list);
 
@@ -212,8 +216,7 @@ static void ibus_unikey_engine_destroy(IBusUnikeyEngine* unikey)
 
 static void ibus_unikey_engine_focus_in(IBusEngine* engine)
 {
-    BLOG_DEBUG("ibus_unikey_engine_focus_in");
-    BLOG_INFO("ibus_unikey_engine_focus_in INFO");
+    BLOG_TRACE("ibus_unikey_engine_focus_in");
     unikey = (IBusUnikeyEngine*)engine;
 
     if (unikey->last_load_config < config_time)
@@ -234,11 +237,7 @@ static void ibus_unikey_engine_focus_in(IBusEngine* engine)
 static void ibus_unikey_engine_focus_out(IBusEngine* engine)
 {
     BLOG_DEBUG("ibus_unikey_engine_focus_out");
-    UnikeyResetBuf();
-    if (unikey->preeditstr->length() > 0)
-    {
-        unikey->preeditstr->clear();
-    }
+    ibus_unikey_engine_clean_buffer(engine);
 
     parent_class->focus_out(engine);
 }
@@ -246,15 +245,7 @@ static void ibus_unikey_engine_focus_out(IBusEngine* engine)
 static void ibus_unikey_engine_reset(IBusEngine* engine)
 {
     BLOG_DEBUG("ibus_unikey_engine_reset");
-    unikey = (IBusUnikeyEngine*)engine;
-
-    UnikeyResetBuf();
-    if (unikey->preeditstr->length() > 0)
-    {
-        ibus_engine_hide_preedit_text(engine);
-        ibus_unikey_engine_commit_string(engine, unikey->preeditstr->c_str());
-        unikey->preeditstr->clear();
-    }
+    ibus_unikey_engine_clean_buffer(engine);
 
     parent_class->reset(engine);
 }
@@ -277,6 +268,7 @@ static void ibus_unikey_config_value_changed(IBusConfig *config,
                                              GVariant   *value,
                                              gpointer    user_data)
 {
+    BLOG_DEBUG("ibus_unikey_config_value_changed");
     if (strcmp(section, CONFIG_SECTION) == 0)
     {
         config_time += 1;
@@ -287,6 +279,7 @@ static void ibus_unikey_engine_property_activate(IBusEngine* engine,
                                                  const gchar* prop_name,
                                                  guint prop_state)
 {
+    BLOG_DEBUG("ibus_unikey_engine_property_activate");
     IBusProperty* prop;
     IBusText* label;
     guint i, j;
@@ -425,8 +418,6 @@ static void ibus_unikey_engine_property_activate(IBusEngine* engine,
             return;
     } // END Run setup
 
-    ibus_unikey_engine_reset(engine);
-
     UnikeySetInputMethod(unikey->im);
     UnikeySetOutputCharset(unikey->oc);
     UnikeySetOptions(&unikey->ukopt);
@@ -434,6 +425,7 @@ static void ibus_unikey_engine_property_activate(IBusEngine* engine,
 
 static void ibus_unikey_engine_create_property_list(IBusUnikeyEngine* unikey)
 {
+    BLOG_DEBUG("ibus_unikey_engine_create_property_list");
     IBusProperty* prop;
     IBusText* label,* tooltip;
     gchar name[32];
@@ -616,16 +608,9 @@ static void ibus_unikey_engine_create_property_list(IBusUnikeyEngine* unikey)
 // end top menu
 }
 
-static void ibus_unikey_engine_commit_string(IBusEngine *engine, const gchar *string)
-{
-    IBusText *text;
-
-    text = ibus_text_new_from_static_string(string);
-    ibus_engine_commit_text(engine, text);
-}
-
 static void ibus_unikey_engine_update_preedit_string(IBusEngine *engine, const gchar *string, gboolean visible)
 {
+    BLOG_DEBUG("ibus_unikey_engine_update_preedit_string");
     IBusText *text;
 
     text = ibus_text_new_from_static_string(string);
@@ -639,6 +624,7 @@ static void ibus_unikey_engine_update_preedit_string(IBusEngine *engine, const g
 
 static void ibus_unikey_engine_erase_chars(IBusEngine *engine, int num_chars)
 {
+    BLOG_DEBUG("ibus_unikey_engine_erase_chars");
     int i, k;
     guchar c;
 
@@ -663,6 +649,7 @@ static gboolean ibus_unikey_engine_process_key_event(IBusEngine* engine,
                                                      guint keycode,
                                                      guint modifiers)
 {
+    BLOG_DEBUG("ibus_unikey_engine_process_key_event");
     static gboolean tmp;
 
     unikey = (IBusUnikeyEngine*)engine;
@@ -687,6 +674,7 @@ static gboolean ibus_unikey_engine_process_key_event_preedit(IBusEngine* engine,
                                                              guint keycode,
                                                              guint modifiers)
 {
+    BLOG_DEBUG("ibus_unikey_engine_process_key_event_preedit");
     if (modifiers & IBUS_RELEASE_MASK)
     {
         return false;
@@ -704,7 +692,7 @@ static gboolean ibus_unikey_engine_process_key_event_preedit(IBusEngine* engine,
              || (keyval >= IBUS_KP_Home && keyval <= IBUS_KP_Delete)
         )
     {
-        ibus_unikey_engine_reset(engine);
+        ibus_unikey_engine_commit(engine);
         return false;
     }
 
@@ -722,7 +710,6 @@ static gboolean ibus_unikey_engine_process_key_event_preedit(IBusEngine* engine,
 
         if (UnikeyBackspaces == 0 || unikey->preeditstr->empty())
         {
-            ibus_unikey_engine_reset(engine);
             return false;
         }
         else
@@ -764,7 +751,7 @@ static gboolean ibus_unikey_engine_process_key_event_preedit(IBusEngine* engine,
 
     else if (keyval >=IBUS_KP_Multiply && keyval <=IBUS_KP_9)
     {
-        ibus_unikey_engine_reset(engine);
+        ibus_unikey_engine_commit(engine);
         return false;
     }
 
@@ -875,7 +862,7 @@ static gboolean ibus_unikey_engine_process_key_event_preedit(IBusEngine* engine,
                 if (WordBreakSyms[i] == unikey->preeditstr->at(unikey->preeditstr->length()-1)
                     && WordBreakSyms[i] == keyval)
                 {
-                    ibus_unikey_engine_reset(engine);
+                    ibus_unikey_engine_commit(engine);
                     return true;
                 }
             }
@@ -887,6 +874,28 @@ static gboolean ibus_unikey_engine_process_key_event_preedit(IBusEngine* engine,
     } //end capture printable char
 
     // non process key
-    ibus_unikey_engine_reset(engine);
+    ibus_unikey_engine_commit(engine);
     return false;
+}
+
+static void ibus_unikey_engine_clean_buffer(IBusEngine* engine) {
+    BLOG_DEBUG("ibus_unikey_engine_clean_buffer");
+    UnikeyResetBuf();
+    unikey->preeditstr->clear();
+    ibus_engine_hide_preedit_text(engine);    
+}
+
+static void ibus_unikey_engine_commit(IBusEngine* engine) {
+    BLOG_DEBUG("ibus_unikey_engine_commit");
+    unikey = (IBusUnikeyEngine*)engine;
+
+    if (unikey->preeditstr->length() > 0)
+    {
+        IBusText *text;
+
+        text = ibus_text_new_from_static_string(unikey->preeditstr->c_str());
+        ibus_engine_commit_text(engine, text);        
+    }
+    
+    ibus_unikey_engine_clean_buffer(engine);        
 }

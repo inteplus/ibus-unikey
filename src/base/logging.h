@@ -8,6 +8,12 @@
 #define SPDLOG_NO_NAME
 #define SPDLOG_LEVEL_NAMES  { "TRC", "DBG", "INF", "WRN", "ERR", "CRT", "OFF" }
 
+#ifndef NDEBUG
+#define SPDLOG_DEBUG_ON
+#define SPDLOG_TRACE_ON
+#endif // NDEBUG
+
+
 #include <spdlog/spdlog.h>
 
 #include "base/port.h"
@@ -61,8 +67,14 @@ private:
 
 } // namespace Unikey
 
-#define BLOG_TRACE(...) Unikey::Logger::get_default_logger()->trace(__VA_ARGS__)
-#define BLOG_DEBUG(...) Unikey::Logger::get_default_logger()->debug(__VA_ARGS__)
+#ifndef NDEBUG
+#define BLOG_TRACE(...) SPDLOG_TRACE(Unikey::Logger::get_default_logger(), __VA_ARGS__)
+#define BLOG_DEBUG(...) SPDLOG_DEBUG(Unikey::Logger::get_default_logger(), __VA_ARGS__)
+#else
+#define BLOG_TRACE(...)
+#define BLOG_DEBUG(...)
+#endif // NDEBUG
+
 #define BLOG_INFO(...) Unikey::Logger::get_default_logger()->info(__VA_ARGS__)
 #define BLOG_WARNING(...) Unikey::Logger::get_default_logger()->warn(__VA_ARGS__)
 #define BLOG_ERROR(...) Unikey::Logger::get_default_logger()->error(__VA_ARGS__)
