@@ -3,16 +3,14 @@
 
 #define UNIKEY_MACRO_FILE        ".ibus/unikey/macro"
 
-#define CONFIG_SECTION           "engine/Unikey"
-
-#define CONFIG_INPUTMETHOD       "input_method"
-#define CONFIG_OUTPUTCHARSET     "output_charset"
-#define CONFIG_SPELLCHECK        "spell_check"
-#define CONFIG_AUTORESTORENONVN  "auto_restore_non_vn"
-#define CONFIG_MODERNSTYLE       "modern_style"
-#define CONFIG_FREEMARKING       "free_marking"
-#define CONFIG_MACROENABLED      "macro_enabled"
-#define CONFIG_PROCESSWATBEGIN   "process_word_at_begin"
+#define CONFIG_INPUTMETHOD       "input-method"
+#define CONFIG_OUTPUTCHARSET     "output-charset"
+#define CONFIG_SPELLCHECK        "spell-check"
+#define CONFIG_AUTORESTORENONVN  "auto-restore-non-vn"
+#define CONFIG_MODERNSTYLE       "modern-style"
+#define CONFIG_FREEMARKING       "free-marking"
+#define CONFIG_MACROENABLED      "macro-enabled"
+#define CONFIG_PROCESSWATBEGIN   "process-word-at-begin"
 
 // DEFAULT options
 #define DEFAULT_CONF_SPELLCHECK         TRUE
