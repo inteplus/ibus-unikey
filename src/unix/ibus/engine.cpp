@@ -212,8 +212,8 @@ static void ibus_unikey_engine_destroy(IBusUnikeyEngine* unikey)
 
 static void ibus_unikey_engine_focus_in(IBusEngine* engine)
 {
-    BLOG_TRACE("ibus_unikey_engine_focus_in");
     unikey = (IBusUnikeyEngine*)engine;
+    BLOG_TRACE("ibus_unikey_engine_focus_in: last={}, config_time={}", unikey->last_load_config, config_time);
 
     if (unikey->last_load_config < config_time)
     {
@@ -262,7 +262,7 @@ static void ibus_unikey_config_value_changed(GSettings *settings,
                                              const gchar *key,
                                              gpointer    user_data)
 {
-    BLOG_DEBUG("ibus_unikey_config_value_changed");
+    BLOG_DEBUG("ibus_unikey_config_value_changed: key={}", key);
     config_time += 1;
 }
 
@@ -270,7 +270,7 @@ static void ibus_unikey_engine_property_activate(IBusEngine* engine,
                                                  const gchar* prop_name,
                                                  guint prop_state)
 {
-    BLOG_DEBUG("ibus_unikey_engine_property_activate");
+    BLOG_DEBUG("ibus_unikey_engine_property_activate: {}, {}", prop_name, prop_state);
     IBusProperty* prop;
     IBusText* label;
     guint i, j;
