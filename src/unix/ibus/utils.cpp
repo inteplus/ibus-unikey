@@ -57,29 +57,17 @@ IBusComponent* ibus_unikey_get_component()
                                    "",
                                    PACKAGE_NAME);
     
-#if IBUS_CHECK_VERSION(1,3,99)
     engine = ibus_engine_desc_new_varargs ("name",        "Unikey",
                                            "longname",    "Unikey",
                                            "description", IU_DESC,
                                            "language",    "vi",
                                            "license",     "GPLv3",
-                                           "author",      "Lê Quốc Tuấn <mr.lequoctuan@gmail.com>",
+                                           "author",      "IBus-Unikey Team <ibusunikey@gmail.com>",
                                            "icon",        PKGDATADIR"/icons/ibus-unikey.png",
-                                           "layout",      "us",
+                                           "layout",      "default",
                                            "rank",        99,
                                            "setup",       LIBEXECDIR "/ibus-setup-unikey",
                                            NULL);
-#else
-    engine = ibus_engine_desc_new  ("Unikey",
-                                    "Unikey",
-                                    IU_DESC,
-                                    "vi",
-                                    "GPLv3",
-                                    "Lê Quốc Tuấn <mr.lequoctuan@gmail.com>",
-                                    PKGDATADIR"/icons/ibus-unikey.png",
-                                    "us");
-    engine->rank = 99;
-#endif
 
     ibus_component_add_engine(component, engine);
 
@@ -119,14 +107,12 @@ int latinToUtf(unsigned char* dst, unsigned char* src, int inSize, int* pOutSize
     return (outLeft >= 0);
 }
 
-gboolean ibus_unikey_config_get_string(IBusConfig* config,
-                                    const gchar* section,
-                                    const gchar* name,
+gboolean ibus_unikey_config_get_string(GSettings* settings,
+                                    const gchar* key,
                                     gchar** result)
 {
-#if IBUS_CHECK_VERSION(1,3,99)
     GVariant *value = NULL;
-    value = ibus_config_get_value(config, section, name);
+    value = g_settings_get_value(settings, key);
     if (value)
     {
         *result = g_strdup((gchar*)g_variant_get_string(value, NULL));
@@ -134,79 +120,26 @@ gboolean ibus_unikey_config_get_string(IBusConfig* config,
         return true;
     }
     return false;
-#else
-    GValue value = {0};
-    if (ibus_config_get_value(config, section, name, &value))
-    {
-        *result = g_strdup((gchar*)g_value_get_string(&value));
-        g_value_unset(&value);
-        return true;
-    }
-    return false;
-#endif
 }
 
-void ibus_unikey_config_set_string(IBusConfig* config,
-                                    const gchar* section,
-                                    const gchar* name,
+void ibus_unikey_config_set_string(GSettings* settings,
+                                    const gchar* key,
                                     const gchar* value)
 {
-#if IBUS_CHECK_VERSION(1,3,99)
-    ibus_config_set_value(config, section, name, g_variant_new_string(value));
-#else
-    GValue v = {0};
-    g_value_init(&v, G_TYPE_STRING);
-    g_value_set_string(&v, value);
-    ibus_config_set_value(config, section, name, &v);
-#endif
+    g_settings_set_value(settings, key, g_variant_new_string(value));
 }
 
-gboolean ibus_unikey_config_get_boolean(IBusConfig* config,
-                                        const gchar* section,
-                                        const gchar* name,
+gboolean ibus_unikey_config_get_boolean(GSettings* settings,
+                                        const gchar* key,
                                         gboolean* result)
 {
-#if IBUS_CHECK_VERSION(1,3,99)
-    GVariant *value = NULL;
-    value = ibus_config_get_value(config, section, name);
-    if (value)
-    {
-        *result = g_variant_get_boolean(value);
-        g_variant_unref(value);
-        return true;
-    }
-    return false;
-#else
-    GValue value = {0};
-    if (ibus_config_get_value(config, section, name, &value))
-    {
-        *result = g_value_get_boolean(&value);
-        g_value_unset(&value);
-        return true;
-    }
-    return false;
-#endif
+    *result = g_settings_get_boolean(settings, key);
+    return true;
 }
 
-void ibus_unikey_config_set_boolean(IBusConfig* config,
-                                    const gchar* section,
-                                    const gchar* name,
+void ibus_unikey_config_set_boolean(GSettings* settings,
+                                    const gchar* key,
                                     gboolean value)
 {
-#if IBUS_CHECK_VERSION(1,3,99)
-    ibus_config_set_value(config, section, name, g_variant_new_boolean(value));
-#else
-    GValue v = {0};
-    g_value_init(&v, G_TYPE_BOOLEAN);
-    g_value_set_boolean(&v, value);
-    ibus_config_set_value(config, section, name, &v);
-#endif
+    g_settings_set_boolean(settings, key, value);
 }
-
-#if !IBUS_CHECK_VERSION(1,3,99)
-char* ibus_property_get_key(IBusProperty *prop)
-{
-    return prop->key;
-}
-#endif
-

@@ -20,10 +20,6 @@
 
 #include "base/logging.h"
 
-#if !IBUS_CHECK_VERSION(1,2,99) // ibus below version 1.2.99 have problem with PROP_TYPE_NORMAL, use RADIO instead
-#define PROP_TYPE_NORMAL PROP_TYPE_RADIO
-#endif
-
 #define _(string) gettext(string)
 
 #define CONVERT_BUF_SIZE 1024
@@ -46,8 +42,7 @@ static unsigned char WordAutoCommit[] =
 };
 
 static IBusEngineClass* parent_class = NULL;
-static IBusConfig*      config       = NULL;
-static guint            config_time  = 0;
+static GSettings*       settings     = NULL;
 
 static IBusUnikeyEngine* unikey; // current (focus) unikey engine
 
@@ -82,9 +77,9 @@ void ibus_unikey_init(IBusBus* bus)
 {
     BLOG_DEBUG("ibus_unikey_init");
     UnikeySetup();
-    config = ibus_bus_get_config(bus);
+    settings = g_settings_new("org.freedesktop.ibus.engine.unikey");
 
-    g_signal_connect(config, "value-changed", G_CALLBACK(ibus_unikey_config_value_changed), NULL);
+    g_signal_connect(settings, "changed", G_CALLBACK(ibus_unikey_config_value_changed), NULL);
 }
 
 void ibus_unikey_exit()
@@ -130,7 +125,7 @@ static void ibus_unikey_engine_load_config(IBusUnikeyEngine* unikey)
     gboolean b;
     guint i;
 
-//set default options
+    //set default options
     unikey->im = Unikey_IM[0];
     unikey->oc = Unikey_OC[0];
     unikey->ukopt.spellCheckEnabled     = DEFAULT_CONF_SPELLCHECK;
@@ -140,8 +135,9 @@ static void ibus_unikey_engine_load_config(IBusUnikeyEngine* unikey)
     unikey->ukopt.macroEnabled          = DEFAULT_CONF_MACROENABLED;
     unikey->process_w_at_begin          = DEFAULT_CONF_PROCESSWATBEGIN;
 
-    if (ibus_unikey_config_get_string(config, CONFIG_SECTION, CONFIG_INPUTMETHOD, &str))
+    if (ibus_unikey_config_get_string(settings, CONFIG_INPUTMETHOD, &str))
     {
+        BLOG_DEBUG("load_config: im={}", str);
         for (i = 0; i < NUM_INPUTMETHOD; i++)
         {
             if (strcasecmp(str, Unikey_IMNames[i]) == 0)
@@ -152,8 +148,9 @@ static void ibus_unikey_engine_load_config(IBusUnikeyEngine* unikey)
         }
     }
 
-    if (ibus_unikey_config_get_string(config, CONFIG_SECTION, CONFIG_OUTPUTCHARSET, &str))
+    if (ibus_unikey_config_get_string(settings, CONFIG_OUTPUTCHARSET, &str))
     {
+        BLOG_DEBUG("load_config: oc={}", str);
         for (i = 0; i < NUM_OUTPUTCHARSET; i++)
         {
             if (strcasecmp(str, Unikey_OCNames[i]) == 0)
@@ -164,22 +161,22 @@ static void ibus_unikey_engine_load_config(IBusUnikeyEngine* unikey)
         }
     }
 
-    if (ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_FREEMARKING, &b))
+    if (ibus_unikey_config_get_boolean(settings, CONFIG_FREEMARKING, &b))
         unikey->ukopt.freeMarking = b;
 
-    if (ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_MODERNSTYLE, &b))
+    if (ibus_unikey_config_get_boolean(settings, CONFIG_MODERNSTYLE, &b))
         unikey->ukopt.modernStyle = b;
 
-    if (ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_MACROENABLED, &b))
+    if (ibus_unikey_config_get_boolean(settings, CONFIG_MACROENABLED, &b))
         unikey->ukopt.macroEnabled = b;
 
-    if (ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_SPELLCHECK, &b))
+    if (ibus_unikey_config_get_boolean(settings, CONFIG_SPELLCHECK, &b))
         unikey->ukopt.spellCheckEnabled = b;
 
-    if (ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_AUTORESTORENONVN, &b))
+    if (ibus_unikey_config_get_boolean(settings, CONFIG_AUTORESTORENONVN, &b))
         unikey->ukopt.autoNonVnRestore = b;
 
-    if (ibus_unikey_config_get_boolean(config, CONFIG_SECTION, CONFIG_PROCESSWATBEGIN, &b))
+    if (ibus_unikey_config_get_boolean(settings, CONFIG_PROCESSWATBEGIN, &b))
         unikey->process_w_at_begin = b;
 
     // load macro
@@ -216,14 +213,8 @@ static void ibus_unikey_engine_destroy(IBusUnikeyEngine* unikey)
 
 static void ibus_unikey_engine_focus_in(IBusEngine* engine)
 {
-    BLOG_TRACE("ibus_unikey_engine_focus_in");
     unikey = (IBusUnikeyEngine*)engine;
-
-    if (unikey->last_load_config < config_time)
-    {
-        ibus_unikey_engine_load_config(unikey);
-        ibus_unikey_engine_create_property_list(unikey);
-    }
+    BLOG_TRACE("ibus_unikey_engine_focus_in");
 
     UnikeySetInputMethod(unikey->im);
     UnikeySetOutputCharset(unikey->oc);
@@ -262,24 +253,21 @@ static void ibus_unikey_engine_disable(IBusEngine* engine)
     parent_class->disable(engine);
 }
 
-static void ibus_unikey_config_value_changed(IBusConfig *config,
-                                             gchar      *section,
-                                             gchar      *name,
-                                             GVariant   *value,
+static void ibus_unikey_config_value_changed(GSettings *settings,
+                                             const gchar *key,
                                              gpointer    user_data)
 {
-    BLOG_DEBUG("ibus_unikey_config_value_changed");
-    if (strcmp(section, CONFIG_SECTION) == 0)
-    {
-        config_time += 1;
-    }
+    BLOG_DEBUG("ibus_unikey_config_value_changed: key={}", key);
+    // TODO: Should update for the key only.
+    ibus_unikey_engine_load_config(unikey);
+    ibus_unikey_engine_create_property_list(unikey);
 }
 
 static void ibus_unikey_engine_property_activate(IBusEngine* engine,
                                                  const gchar* prop_name,
                                                  guint prop_state)
 {
-    BLOG_DEBUG("ibus_unikey_engine_property_activate");
+    BLOG_DEBUG("ibus_unikey_engine_property_activate: {}, {}", prop_name, prop_state);
     IBusProperty* prop;
     IBusText* label;
     guint i, j;
@@ -295,6 +283,7 @@ static void ibus_unikey_engine_property_activate(IBusEngine* engine,
                        Unikey_IMNames[i]) == 0)
             {
                 unikey->im = Unikey_IM[i];
+                ibus_unikey_config_set_string(settings, CONFIG_INPUTMETHOD, Unikey_IMNames[i]);
 
                 // update label
                 for (j=0; j<unikey->prop_list->properties->len; j++)
@@ -336,6 +325,7 @@ static void ibus_unikey_engine_property_activate(IBusEngine* engine,
                        Unikey_OCNames[i]) == 0)
             {
                 unikey->oc = Unikey_OC[i];
+                ibus_unikey_config_set_string(settings, CONFIG_OUTPUTCHARSET, Unikey_OCNames[i]);
 
                 // update label
                 for (j=0; j<unikey->prop_list->properties->len; j++)
@@ -372,6 +362,7 @@ static void ibus_unikey_engine_property_activate(IBusEngine* engine,
     else if (strcmp(prop_name, CONFIG_SPELLCHECK) == 0)
     {
         unikey->ukopt.spellCheckEnabled = !unikey->ukopt.spellCheckEnabled;
+        ibus_unikey_config_set_boolean(settings, CONFIG_SPELLCHECK, (unikey->ukopt.spellCheckEnabled == 1));
 
         // update state
         for (j = 0; j < unikey->menu_opt->properties->len ; j++)
@@ -393,6 +384,7 @@ static void ibus_unikey_engine_property_activate(IBusEngine* engine,
     else if (strcmp(prop_name, CONFIG_MACROENABLED) == 0)
     {
         unikey->ukopt.macroEnabled = !unikey->ukopt.macroEnabled;
+        ibus_unikey_config_set_boolean(settings, CONFIG_MACROENABLED, (unikey->ukopt.macroEnabled == 1));
 
         // update state
         for (j = 0; j < unikey->menu_opt->properties->len ; j++)

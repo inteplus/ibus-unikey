@@ -50,6 +50,8 @@ SET(PKGDATADIR          "${CMAKE_INSTALL_FULL_DATADIR}/${PACKAGE_NAME}")
 SET(UI_DATA_DIR         "${PKGDATADIR}/ui")
 SET(IBUS_COMPONENT_DIR  "${CMAKE_INSTALL_FULL_DATADIR}/ibus/component")
 
+SET(GSETTINGS_SCHEMA_DIR  "${PROJECT_SOURCE_DIR}/src/data/gschema")
+
 CONFIGURE_FILE(
   "${PROJECT_SOURCE_DIR}/src/unix/ibus/unikey.xml.in"
   "${CMAKE_CURRENT_BINARY_DIR}/unikey.xml"
@@ -121,6 +123,9 @@ TARGET_COMPILE_DEFINITIONS(ibus-engine-unikey
   PUBLIC PKGDATADIR=\"${PKGDATADIR}\"
 )
 
+INCLUDE(GSettings)
+add_schemas(ibus-engine-unikey ${GSETTINGS_SCHEMA_DIR} ${CMAKE_INSTALL_PREFIX})
+
 # ------ ibus-setup-unikey --------#
 ADD_EXECUTABLE(ibus-setup-unikey ${IBUS_UNIKEY_SETUP_SRC})
 
@@ -128,6 +133,7 @@ TARGET_LINK_LIBRARIES(ibus-setup-unikey
   libunikey-ibus
   ${IBUS_LIBRARIES}
   ${GTK2_LIBRARIES}
+  Threads::Threads
 )
 
 TARGET_COMPILE_OPTIONS(ibus-setup-unikey
