@@ -133,6 +133,7 @@ TARGET_LINK_LIBRARIES(ibus-setup-unikey
   libunikey-ibus
   ${IBUS_LIBRARIES}
   ${GTK2_LIBRARIES}
+  Threads::Threads
 )
 
 TARGET_COMPILE_OPTIONS(ibus-setup-unikey

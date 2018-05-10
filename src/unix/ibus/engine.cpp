@@ -43,7 +43,6 @@ static unsigned char WordAutoCommit[] =
 
 static IBusEngineClass* parent_class = NULL;
 static GSettings*       settings     = NULL;
-static guint            config_time  = 0;
 
 static IBusUnikeyEngine* unikey; // current (focus) unikey engine
 
@@ -126,7 +125,7 @@ static void ibus_unikey_engine_load_config(IBusUnikeyEngine* unikey)
     gboolean b;
     guint i;
 
-//set default options
+    //set default options
     unikey->im = Unikey_IM[0];
     unikey->oc = Unikey_OC[0];
     unikey->ukopt.spellCheckEnabled     = DEFAULT_CONF_SPELLCHECK;
@@ -138,6 +137,7 @@ static void ibus_unikey_engine_load_config(IBusUnikeyEngine* unikey)
 
     if (ibus_unikey_config_get_string(settings, CONFIG_INPUTMETHOD, &str))
     {
+        BLOG_DEBUG("load_config: im={}", str);
         for (i = 0; i < NUM_INPUTMETHOD; i++)
         {
             if (strcasecmp(str, Unikey_IMNames[i]) == 0)
@@ -150,6 +150,7 @@ static void ibus_unikey_engine_load_config(IBusUnikeyEngine* unikey)
 
     if (ibus_unikey_config_get_string(settings, CONFIG_OUTPUTCHARSET, &str))
     {
+        BLOG_DEBUG("load_config: oc={}", str);
         for (i = 0; i < NUM_OUTPUTCHARSET; i++)
         {
             if (strcasecmp(str, Unikey_OCNames[i]) == 0)
@@ -213,13 +214,7 @@ static void ibus_unikey_engine_destroy(IBusUnikeyEngine* unikey)
 static void ibus_unikey_engine_focus_in(IBusEngine* engine)
 {
     unikey = (IBusUnikeyEngine*)engine;
-    BLOG_TRACE("ibus_unikey_engine_focus_in: last={}, config_time={}", unikey->last_load_config, config_time);
-
-    if (unikey->last_load_config < config_time)
-    {
-        ibus_unikey_engine_load_config(unikey);
-        ibus_unikey_engine_create_property_list(unikey);
-    }
+    BLOG_TRACE("ibus_unikey_engine_focus_in");
 
     UnikeySetInputMethod(unikey->im);
     UnikeySetOutputCharset(unikey->oc);
@@ -263,7 +258,9 @@ static void ibus_unikey_config_value_changed(GSettings *settings,
                                              gpointer    user_data)
 {
     BLOG_DEBUG("ibus_unikey_config_value_changed: key={}", key);
-    config_time += 1;
+    // TODO: Should update for the key only.
+    ibus_unikey_engine_load_config(unikey);
+    ibus_unikey_engine_create_property_list(unikey);
 }
 
 static void ibus_unikey_engine_property_activate(IBusEngine* engine,
@@ -286,6 +283,7 @@ static void ibus_unikey_engine_property_activate(IBusEngine* engine,
                        Unikey_IMNames[i]) == 0)
             {
                 unikey->im = Unikey_IM[i];
+                ibus_unikey_config_set_string(settings, CONFIG_INPUTMETHOD, Unikey_IMNames[i]);
 
                 // update label
                 for (j=0; j<unikey->prop_list->properties->len; j++)
@@ -327,6 +325,7 @@ static void ibus_unikey_engine_property_activate(IBusEngine* engine,
                        Unikey_OCNames[i]) == 0)
             {
                 unikey->oc = Unikey_OC[i];
+                ibus_unikey_config_set_string(settings, CONFIG_OUTPUTCHARSET, Unikey_OCNames[i]);
 
                 // update label
                 for (j=0; j<unikey->prop_list->properties->len; j++)
@@ -363,6 +362,7 @@ static void ibus_unikey_engine_property_activate(IBusEngine* engine,
     else if (strcmp(prop_name, CONFIG_SPELLCHECK) == 0)
     {
         unikey->ukopt.spellCheckEnabled = !unikey->ukopt.spellCheckEnabled;
+        ibus_unikey_config_set_boolean(settings, CONFIG_SPELLCHECK, (unikey->ukopt.spellCheckEnabled == 1));
 
         // update state
         for (j = 0; j < unikey->menu_opt->properties->len ; j++)
@@ -384,6 +384,7 @@ static void ibus_unikey_engine_property_activate(IBusEngine* engine,
     else if (strcmp(prop_name, CONFIG_MACROENABLED) == 0)
     {
         unikey->ukopt.macroEnabled = !unikey->ukopt.macroEnabled;
+        ibus_unikey_config_set_boolean(settings, CONFIG_MACROENABLED, (unikey->ukopt.macroEnabled == 1));
 
         // update state
         for (j = 0; j < unikey->menu_opt->properties->len ; j++)
