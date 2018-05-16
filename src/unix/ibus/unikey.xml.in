@@ -12,7 +12,7 @@
 
 <engines>
 	<engine>
-		<symbol>&#xf4;</symbol>
+		<symbol>&#x76;&#x69;</symbol>
 		<rank>99</rank>
 		<description>Unikey (Vietnamese Input Method)</description>
 		<language>vi</language>
