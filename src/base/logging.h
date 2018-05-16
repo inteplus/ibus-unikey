@@ -69,7 +69,7 @@ private:
 
 #ifndef NDEBUG
 #define BLOG_TRACE(...) SPDLOG_TRACE(Unikey::Logger::get_default_logger(), __VA_ARGS__)
-#define BLOG_DEBUG(...) SPDLOG_DEBUG(Unikey::Logger::get_default_logger(), __VA_ARGS__)
+#define BLOG_DEBUG(...) Unikey::Logger::get_default_logger()->debug(__VA_ARGS__)
 #else
 #define BLOG_TRACE(...)
 #define BLOG_DEBUG(...)
