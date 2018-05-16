@@ -16,7 +16,7 @@ Build Instructions
 License
 -------
 
-All Ibus-Unikey code written by Ibus-Unikey Team is released under
+All IBus-Unikey code written by IBus-Unikey Team is released under
 [The GNU General Public License](https://opensource.org/licenses/gpl-3.0).
-For thrid party code under [src/third_party](src/third_party) directory,
+For third party code under [src/third_party](src/third_party) directory,
 see each sub directory to find the copyright notice.

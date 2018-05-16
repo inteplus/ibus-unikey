@@ -41,7 +41,7 @@ INCLUDE_DIRECTORIES(${IBUS_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${GTK2_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${spdlog_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src)
-INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src/third_party/ukengine)
+INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src/third_party/libunikey)
 INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src/unix/ibus)
 
 SET(LIBEXECDIR          "${CMAKE_INSTALL_FULL_LIBEXECDIR}/${PACKAGE_NAME}")
@@ -60,10 +60,6 @@ CONFIGURE_FILE(
 MESSAGE(STATUS "CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
 
 # ----- SOURCES ----- #
-
-FILE(GLOB UKENGINE_SRC
-  "src/third_party/ukengine/*.cpp"
-)
 
 FILE(GLOB IBUS_UNIKEY_ENGINE_SRC
   "src/unix/ibus/*.cpp"
@@ -90,20 +86,13 @@ FILE(GLOB IBUS_UNIKEY_PO_FILES
   "po/vi.po"
 )
 
-# ------ LIBRARIES --------#
-
-ADD_LIBRARY(libunikey-ibus STATIC ${UKENGINE_SRC})
-
-TARGET_COMPILE_OPTIONS(libunikey-ibus
-  PUBLIC -funsigned-char)
-
 # ------ EXECUTABLES --------#
 
 # ------ ibus-engine-unikey --------#
 ADD_EXECUTABLE(ibus-engine-unikey ${IBUS_UNIKEY_ENGINE_SRC})
 
 TARGET_LINK_LIBRARIES(ibus-engine-unikey
-  libunikey-ibus
+  libunikey
   ${IBUS_LIBRARIES}
   Threads::Threads
 )
@@ -130,7 +119,7 @@ add_schemas(ibus-engine-unikey ${GSETTINGS_SCHEMA_DIR} ${CMAKE_INSTALL_PREFIX})
 ADD_EXECUTABLE(ibus-setup-unikey ${IBUS_UNIKEY_SETUP_SRC})
 
 TARGET_LINK_LIBRARIES(ibus-setup-unikey
-  libunikey-ibus
+  libunikey
   ${IBUS_LIBRARIES}
   ${GTK2_LIBRARIES}
   Threads::Threads
@@ -173,3 +162,4 @@ INSTALL(FILES "${CMAKE_CURRENT_BINARY_DIR}/vi.gmo"
   RENAME "${PACKAGE_NAME}.mo")
 
 ADD_SUBDIRECTORY(po)
+ADD_SUBDIRECTORY(src/third_party/libunikey)

@@ -27,9 +27,7 @@ struct _IBusUnikeyEngine
     UnikeyOptions ukopt;
     gboolean process_w_at_begin;
 
-    gboolean auto_commit;
     gboolean last_key_with_shift;
-    guint last_load_config;
 
     std::string* preeditstr;
 };
