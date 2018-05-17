@@ -1,14 +1,14 @@
-How to build Ibus-Unikey in GNU/Linux
+How to build IBus-Unikey in GNU/Linux
 =====================================
 
 # System Requirements
-Currently, only Ubuntu 16.04 is tested to build IBus.
+Currently, only Ubuntu 16.04 is tested to build IBus-Unikey.
 
 # Dependencies
 
 IBus-Unikey requires gcc 4.9+ with C++14 support.
 
-# Ubuntu 16.04 LTS
+## Ubuntu 16.04 LTS
 
 The following packages are required:
 
@@ -32,4 +32,21 @@ In the ibus-unikey directory, run:
   cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=Release ..
   make -j $(nproc)
   sudo make install
+```
+
+# Make Debian Package
+
+The following packages are required:
+
+
+```
+sudo apt-get devscripts
+
+```
+
+In the ibus-unikey directory, run:
+
+```
+  cd packaging
+  debuild -us -uc -b -i
 ```
