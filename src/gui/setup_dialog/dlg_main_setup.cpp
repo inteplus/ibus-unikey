@@ -69,7 +69,6 @@ void init_dialog_controls(GtkBuilder* builder)
     }
 
     wid = GTK_WIDGET(gtk_builder_get_object(builder, "cbb_input_method"));
-    g_signal_connect(wid, "changed", G_CALLBACK(input_method_combo_box_changed_cb), NULL);
     i = 0;
     if (ibus_unikey_config_get_string(settings, CONFIG_INPUTMETHOD, &str))
     {   
@@ -79,9 +78,9 @@ void init_dialog_controls(GtkBuilder* builder)
         }   
     }
     gtk_combo_box_set_active(GTK_COMBO_BOX(wid), i);
+    g_signal_connect(wid, "changed", G_CALLBACK(input_method_combo_box_changed_cb), NULL);
 
     wid = GTK_WIDGET(gtk_builder_get_object(builder, "cbb_output_charset"));
-    g_signal_connect(wid, "changed", G_CALLBACK(output_charset_combo_box_changed_cb), NULL);
     i = 0;
     if (ibus_unikey_config_get_string(settings, CONFIG_OUTPUTCHARSET, &str))
     {   
@@ -91,42 +90,43 @@ void init_dialog_controls(GtkBuilder* builder)
         }   
     }
     gtk_combo_box_set_active(GTK_COMBO_BOX(wid), i);
+    g_signal_connect(wid, "changed", G_CALLBACK(output_charset_combo_box_changed_cb), NULL);
 
     wid = GTK_WIDGET(gtk_builder_get_object(builder, "check_spellcheck"));
-    g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_SPELLCHECK);
     if (!ibus_unikey_config_get_boolean(settings, CONFIG_SPELLCHECK, &b))
         b = DEFAULT_CONF_SPELLCHECK;
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wid), b);
+    g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_SPELLCHECK);
 
     wid = GTK_WIDGET(gtk_builder_get_object(builder, "check_autorestorenonvn"));
-    g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_AUTORESTORENONVN);
     if (!ibus_unikey_config_get_boolean(settings, CONFIG_AUTORESTORENONVN, &b))
         b = DEFAULT_CONF_AUTONONVNRESTORE;
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wid), b);
+    g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_AUTORESTORENONVN);
 
     wid = GTK_WIDGET(gtk_builder_get_object(builder, "check_modernstyle"));
-    g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_MODERNSTYLE);
     if (!ibus_unikey_config_get_boolean(settings, CONFIG_MODERNSTYLE, &b))
         b = DEFAULT_CONF_MODERNSTYLE;
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wid), b);
+    g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_MODERNSTYLE);
 
     wid = GTK_WIDGET(gtk_builder_get_object(builder, "check_freemarking"));
-    g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_FREEMARKING);
     if (!ibus_unikey_config_get_boolean(settings, CONFIG_FREEMARKING, &b))
         b = DEFAULT_CONF_FREEMARKING;
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wid), b);
+    g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_FREEMARKING);
 
     wid = GTK_WIDGET(gtk_builder_get_object(builder, "check_macroenable"));
-    g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_MACROENABLED);
     if (!ibus_unikey_config_get_boolean(settings, CONFIG_MACROENABLED, &b))
         b = DEFAULT_CONF_MACROENABLED;
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wid), b);
+    g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_MACROENABLED);
 
     wid = GTK_WIDGET(gtk_builder_get_object(builder, "check_processwatbegin"));
-    g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_PROCESSWATBEGIN);
     if (!ibus_unikey_config_get_boolean(settings, CONFIG_PROCESSWATBEGIN, &b))
         b = DEFAULT_CONF_PROCESSWATBEGIN;
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(wid), b);
+    g_signal_connect(wid, "toggled", G_CALLBACK(update_config_toggle_cb), (void*)CONFIG_PROCESSWATBEGIN);
 
     wid = GTK_WIDGET(gtk_builder_get_object(builder, "btn_macroedit"));
     g_signal_connect(wid, "clicked", G_CALLBACK(macro_edit_button_cb), gtk_builder_get_object(builder, "dlg_main_setup"));
