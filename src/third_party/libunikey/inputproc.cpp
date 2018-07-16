@@ -204,6 +204,21 @@ DllExport UkKeyMapping MsViMethodMapping[] = {
     {0, vneNormal}
 };
 
+DllExport UkKeyMapping EnviMethodMapping[] = {
+    {'Z', vneTone0},
+    {'S', vneTone1},
+    {'F', vneTone2},
+    {'R', vneTone3},
+    {'X', vneTone4},
+    {'Q', vneTone5},
+    {'W', vne_telex_w},
+    {'A', vneRoof_a},
+    {'E', vneRoof_e},
+    {'O', vneRoof_o},
+    {'D', vneDd},
+    {0, vneNormal}
+};
+
 //-------------------------------------------
 void SetupInputClassifierTable()
 {
@@ -293,6 +308,9 @@ int UkInputProcessor::setIM(UkInputMethod im)
             break;
         case UkMsVi:
             useBuiltIn(MsViMethodMapping);
+            break;
+        case UkEnvi:
+            useBuiltIn(EnviMethodMapping);
             break;
         default:
             m_im = UkTelex;

@@ -8,6 +8,7 @@
 				<choice value='Vni'/>
 				<choice value='STelex'/>
 				<choice value='STelex2'/>
+				<choice value='Envi'/>
 			</choices>
 			<default>'Telex'</default>
 			<summary>Input Method</summary>

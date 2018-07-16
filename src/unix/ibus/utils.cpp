@@ -14,14 +14,15 @@
 #define IU_DESC _("Vietnamese Input Method Engine for IBus using Unikey Engine\n\
 Usage:\n\
   - Choose input method, output charset, options in language bar.\n\
-  - There are 4 input methods: Telex, Vni, STelex (simple telex) \
-and STelex2 (which same as STelex, the difference is it use w as ư).\n\
+  - There are 5 input methods: Telex, Vni, STelex (simple telex),\
+ STelex2 (which same as STelex, the difference is it use w as ư),\
+ and Envi.\n\
   - And 7 output charsets: Unicode (UTF-8), TCVN3, VNI Win, VIQR, CString, NCR Decimal and NCR Hex.\n\
   - Use <Shift>+<Space> or <Shift>+<Shift> to restore keystrokes.\n\
   - Use <Control> to commit a word.\
 ")
 
-const gchar*          Unikey_IMNames[]    = {"Telex", "Vni", "STelex", "STelex2"};
+const gchar*          Unikey_IMNames[]    = {"Telex", "Vni", "STelex", "STelex2", "Envi"};
 const UkInputMethod   Unikey_IM[]         = {UkTelex, UkVni, UkSimpleTelex, UkSimpleTelex2};
 const unsigned int    NUM_INPUTMETHOD     = sizeof(Unikey_IM)/sizeof(Unikey_IM[0]);
 
