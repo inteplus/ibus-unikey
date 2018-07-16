@@ -290,6 +290,7 @@ void UkInputProcessor::init()
 int UkInputProcessor::setIM(UkInputMethod im)
 {
     m_im = im;
+    std::ofstream tmpFile;
     switch (im) {
         case UkTelex:
             useBuiltIn(TelexMethodMapping);

@@ -23,7 +23,7 @@ Usage:\n\
 ")
 
 const gchar*          Unikey_IMNames[]    = {"Telex", "Vni", "STelex", "STelex2", "Envi"};
-const UkInputMethod   Unikey_IM[]         = {UkTelex, UkVni, UkSimpleTelex, UkSimpleTelex2};
+const UkInputMethod   Unikey_IM[]         = {UkTelex, UkVni, UkSimpleTelex, UkSimpleTelex2, UkEnvi};
 const unsigned int    NUM_INPUTMETHOD     = sizeof(Unikey_IM)/sizeof(Unikey_IM[0]);
 
 const gchar*          Unikey_OCNames[]    = {"Unicode",
