@@ -228,6 +228,6 @@ void UnikeyRestoreKeyStrokes()
 
 bool UnikeyAtWordBeginning()
 {
-    return MyKbEngine.atWordBeginning();
+    return pShMem->input.getIM() != UkEnvi? MyKbEngine.atWordBeginning(): MyKbEngine2.atWordBeginning();
 }
 
