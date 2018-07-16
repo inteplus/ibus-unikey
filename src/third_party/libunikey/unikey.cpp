@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <iostream>
 #include "unikey.h"
 #include "ukengine.h"
+#include "uxengine.h"
 #include "usrkeymap.h"
 
 using namespace std;
@@ -35,6 +36,7 @@ using namespace std;
 UkSharedMem *pShMem = 0;
 
 UkEngine MyKbEngine;
+UxEngine MyKbEngine2;
 
 int UnikeyCapsLockOn = 0;
 int UnikeyShiftPressed = 0;
@@ -48,9 +50,13 @@ UkOutputType UnikeyOutput;
 //--------------------------------------------
 void UnikeySetInputMethod(UkInputMethod im)
 {
-  if (im == UkTelex || im == UkVni || im == UkSimpleTelex || im == UkSimpleTelex2 || im == UkEnvi) {
+  if (im == UkTelex || im == UkVni || im == UkSimpleTelex || im == UkSimpleTelex2) {
     pShMem->input.setIM(im);
     MyKbEngine.reset();
+  }
+  else if(im == UkEnvi) {
+    pShMem->input.setIM(im);
+    MyKbEngine2.reset();
   }
   else if (im == UkUsrIM && pShMem->usrKeyMapLoaded) {
     //cout << "Switched to user mode\n"; //DEBUG
@@ -74,7 +80,10 @@ void UnikeySetCapsState(int shiftPressed, int CapsLockOn)
 int UnikeySetOutputCharset(int charset)
 {
     pShMem->charsetId = charset;
-    MyKbEngine.reset();
+    if (pShMem->input.getIM() != UkEnvi)
+        MyKbEngine.reset();
+    else
+        MyKbEngine2.reset();
     return 1;
 }
 
@@ -126,6 +135,8 @@ void UnikeySetup()
     pShMem->usrKeyMapLoaded = 0;
     MyKbEngine.setCtrlInfo(pShMem);
     MyKbEngine.setCheckKbCaseFunc(&UnikeyCheckKbCase);
+    MyKbEngine2.setCtrlInfo(pShMem);
+    MyKbEngine2.setCheckKbCaseFunc(&UnikeyCheckKbCase);
     UnikeySetInputMethod(UkTelex);
     UnikeySetOutputCharset(CONV_CHARSET_XUTF8);
     pShMem->initialized = 1;
@@ -142,13 +153,19 @@ void UnikeyCleanup()
 void UnikeyFilter(unsigned int ch)
 {
   UnikeyBufChars = sizeof(UnikeyBuf);
-  MyKbEngine.process(ch, UnikeyBackspaces, UnikeyBuf, UnikeyBufChars, UnikeyOutput);
+  if (pShMem->input.getIM() != UkEnvi)
+    MyKbEngine.process(ch, UnikeyBackspaces, UnikeyBuf, UnikeyBufChars, UnikeyOutput);
+  else
+    MyKbEngine2.process(ch, UnikeyBackspaces, UnikeyBuf, UnikeyBufChars, UnikeyOutput);
 }
 
 //--------------------------------------------
 void UnikeyPutChar(unsigned int ch)
 {
-  MyKbEngine.pass(ch);
+  if (pShMem->input.getIM() != UkEnvi)
+    MyKbEngine.pass(ch);
+  else
+    MyKbEngine2.pass(ch);
   UnikeyBufChars = 0;
   UnikeyBackspaces = 0;
 }
@@ -156,20 +173,29 @@ void UnikeyPutChar(unsigned int ch)
 //--------------------------------------------
 void UnikeyResetBuf()
 {
-  MyKbEngine.reset();
+  if (pShMem->input.getIM() != UkEnvi)
+    MyKbEngine.reset();
+  else
+    MyKbEngine2.reset();
 }
 
 //--------------------------------------------
 void UnikeySetSingleMode()
 {
-  MyKbEngine.setSingleMode();
+  if (pShMem->input.getIM() != UkEnvi)
+    MyKbEngine.setSingleMode();
+  else
+    MyKbEngine2.setSingleMode();
 }
 
 //--------------------------------------------
 void UnikeyBackspacePress()
 {
   UnikeyBufChars = sizeof(UnikeyBuf);
-  MyKbEngine.processBackspace(UnikeyBackspaces, UnikeyBuf, UnikeyBufChars, UnikeyOutput);
+  if (pShMem->input.getIM() != UkEnvi)
+    MyKbEngine.processBackspace(UnikeyBackspaces, UnikeyBuf, UnikeyBufChars, UnikeyOutput);
+  else
+    MyKbEngine2.processBackspace(UnikeyBackspaces, UnikeyBuf, UnikeyBufChars, UnikeyOutput);
   //  printf("Backspaces: %d\n",UnikeyBackspaces);
 }
 
@@ -194,7 +220,10 @@ int UnikeyLoadUserKeyMap(const char *fileName)
 void UnikeyRestoreKeyStrokes()
 {
     UnikeyBufChars = sizeof(UnikeyBuf);
-    MyKbEngine.restoreKeyStrokes(UnikeyBackspaces, UnikeyBuf, UnikeyBufChars, UnikeyOutput);
+    if (pShMem->input.getIM() != UkEnvi)
+      MyKbEngine.restoreKeyStrokes(UnikeyBackspaces, UnikeyBuf, UnikeyBufChars, UnikeyOutput);
+    else
+      MyKbEngine2.restoreKeyStrokes(UnikeyBackspaces, UnikeyBuf, UnikeyBufChars, UnikeyOutput);
 }
 
 bool UnikeyAtWordBeginning()
