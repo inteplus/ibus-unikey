@@ -126,6 +126,4 @@ protected:
     bool lastWordIsNonVn();
 };
 
-void SetupUnikeyEngine();
-
 #endif

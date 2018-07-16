@@ -23,15 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __PATTERN_H
 #define __PATTERN_H
 
-#if defined(_WIN32)
-    #if defined(UNIKEYHOOK)
-        #define DllInterface   __declspec( dllexport )
-    #else
-        #define DllInterface   __declspec( dllimport )
-    #endif
-#else
-    #define DllInterface //not used
-#endif
+#include "importexport.h"
 
 #define MAX_PATTERN_LEN 40
 

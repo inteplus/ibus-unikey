@@ -23,22 +23,9 @@
 #ifndef __UK_INPUT_PROCESSOR_H
 #define __UK_INPUT_PROCESSOR_H
 
+#include "importexport.h"
 #include "keycons.h"
 #include "vnlexi.h"
-
-#if defined(_WIN32)
-    #define DllExport   __declspec( dllexport )
-    #define DllImport   __declspec( dllimport )
-    #if defined(UNIKEYHOOK)
-        #define DllInterface   __declspec( dllexport )
-    #else
-        #define DllInterface   __declspec( dllimport )
-    #endif
-#else
-    #define DllInterface //not used
-    #define DllExport
-    #define DllImport
-#endif
 
 enum UkKeyEvName {
   vneRoofAll, vneRoof_a, vneRoof_e, vneRoof_o, 

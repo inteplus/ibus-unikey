@@ -23,20 +23,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __CHARSET_CONVERT_H
 #define __CHARSET_CONVERT_H
 
+#include "importexport.h"
+
 #if !defined(_WIN32)
   #include <stdint.h>
-#endif
-
-#if defined(_WIN32)
-    #if defined(UNIKEYHOOK)
-        #define DllInterface   __declspec( dllexport )
-    #else
-        #define DllInterface   __declspec( dllimport )
-    #endif
-#else
-    #define DllInterface //not used
-    #define DllExport
-    #define DllImport
 #endif
 
 #include "vnconv.h"

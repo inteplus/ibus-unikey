@@ -24,19 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __VN_CONVERT_H
 #define __VN_CONVERT_H
 
-#if defined(_WIN32)
-    #if defined(UNIKEYHOOK)
-        #define DllInterface   __declspec( dllexport )
-    #else
-        #define DllInterface   __declspec( dllimport )
-    #endif
-    #define DllExport   __declspec( dllexport )
-    #define DllImport   __declspec( dllimport )
-#else
-    #define DllInterface //not used
-    #define DllExport
-    #define DllImport
-#endif
+#include "importexport.h"
 
 #define CONV_CHARSET_UNICODE	0
 #define CONV_CHARSET_UNIUTF8    1

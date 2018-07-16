@@ -24,8 +24,7 @@
 #ifndef __UKENGINE_H
 #define __UKENGINE_H
 
-#include "charset.h"
-#include "vnlexi.h"
+#include "seq_utils.h"
 #include "inputproc.h"
 #include "mactab.h"
 
@@ -45,8 +44,6 @@ struct UkSharedMem {
 };
 
 #define MAX_UK_ENGINE 128
-
-enum VnWordForm {vnw_nonVn, vnw_empty, vnw_c, vnw_v, vnw_cv, vnw_vc, vnw_cvc};
 
 typedef void (* CheckKeyboardCaseCb)(int *pShiftPressed, int *pCapslockOn);
 
@@ -155,6 +152,5 @@ protected:
     bool lastWordIsNonVn();
 };
 
-void SetupUnikeyEngine();
 
 #endif

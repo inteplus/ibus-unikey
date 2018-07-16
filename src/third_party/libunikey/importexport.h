@@ -20,48 +20,21 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
+#ifndef __IMPORT_EXPORT_H
+#define __IMPORT_EXPORT_H
 
-#ifndef __MACRO_TABLE_H
-#define __MACRO_TABLE_H
-
-#include "importexport.h"
-#include "keycons.h"
-#include "charset.h"
-
-struct MacroDef
-{
-  int keyOffset;
-  int textOffset;
-};
-
-#if !defined(WIN32)
-typedef char TCHAR;
+#if defined(_WIN32)
+    #define DllExport   __declspec( dllexport )
+    #define DllImport   __declspec( dllimport )
+    #if defined(UNIKEYHOOK)
+        #define DllInterface   __declspec( dllexport )
+    #else
+        #define DllInterface   __declspec( dllimport )
+    #endif
+#else
+    #define DllInterface //not used
+    #define DllExport
+    #define DllImport
 #endif
-
-class DllInterface CMacroTable
-{
-public:
-    void init();
-    int loadFromFile(const char *fname);
-    int writeToFile(const char *fname);
-
-    const StdVnChar *lookup(StdVnChar *key);
-    const StdVnChar *getKey(int idx);
-    const StdVnChar *getText(int idx);
-    int getCount() { return m_count; }
-    void resetContent();
-    int addItem(const char *item, int charset);
-    int addItem(const void *key, const void *text, int charset);
-
-protected:
-    bool readHeader(FILE *f, int & version);
-    void writeHeader(FILE *f);
-
-    MacroDef m_table[MAX_MACRO_ITEMS];
-    char m_macroMem[MACRO_MEM_SIZE];
-
-    int m_count;
-    int m_memSize, m_occupied;
-};
 
 #endif

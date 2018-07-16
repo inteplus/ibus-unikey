@@ -127,7 +127,7 @@ void UnikeyCheckKbCase(int *pShiftPressed, int *pCapsLockOn)
 //--------------------------------------------
 void UnikeySetup()
 {
-    SetupUnikeyEngine();
+    SetupIsoVnMap();
     pShMem = new UkSharedMem;
     pShMem->input.init();
     pShMem->macStore.init();
