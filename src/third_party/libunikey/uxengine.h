@@ -84,6 +84,10 @@ public:
     int processEscChar(UkKeyEvent & ev);
     int processRestore(UkKeyEvent & ev);
     int processRoofAndDd(UkKeyEvent & ev);
+    int processAllA(UkKeyEvent & ev);
+    int processAllO(UkKeyEvent & ev);
+    int processToneFlex(UkKeyEvent & ev);
+    int processToneFlex_dispatch(int tone, UkKeyEvent & ev);
 
 protected:
     static bool m_classInit;

@@ -62,7 +62,10 @@ UxKeyProc UxKeyProcList[vneCount] = {
     &UxEngine::processEscChar, //vneEscChar
     &UxEngine::processAppend,  //vneNormal
     &UxEngine::processRestore, //vneRestore
-    &UxEngine::processRoofAndDd //vneHookAndDd
+    &UxEngine::processRoofAndDd, //vneHookAndDd
+    &UxEngine::processAllA,  //vneAll_a
+    &UxEngine::processAllO,  //vneAll_o
+    &UxEngine::processToneFlex   //vneToneFlex
 };
 
 
@@ -925,6 +928,121 @@ int UxEngine::processRoofAndDd(UkKeyEvent & ev)
         return processAppend(ev);
 
     return m_buffer[m_current].vnSym == vnl_d? processDd(ev): processRoof(ev);
+}
+
+//----------------------------------------------------------
+int UxEngine::processAllA(UkKeyEvent & ev)
+{
+    if (!m_pCtrl->vietKey || m_current < 0)
+        return processAppend(ev);
+
+    switch (m_buffer[m_current].vnSym)
+    {
+    case vnl_a: // a
+    case vnl_A: // A
+        if ((m_current > 0) && (m_buffer[m_current-1].vnSym == vnl_a || m_buffer[m_current-1].vnSym == vnl_A)) // aa
+        {
+            ev.evType = vneNormal;
+            return processAppend(ev);
+        }
+        ev.evType = vneRoof_a;
+        return processRoof(ev);
+    case vnl_ar: // a^
+    case vnl_Ar: // A^
+        ev.evType = vneBowl;
+        return processHook(ev);
+    case vnl_ab: // a(
+    case vnl_Ab: // A(
+        ev.evType = vneBowl;
+        return processHook(ev);
+    default:
+        return processAppend(ev);
+    }
+}
+
+//----------------------------------------------------------
+int UxEngine::processAllO(UkKeyEvent & ev)
+{
+    if (!m_pCtrl->vietKey || m_current < 0)
+        return processAppend(ev);
+
+    switch (m_buffer[m_current].vnSym)
+    {
+    case vnl_o: // o
+    case vnl_O: // O
+        if ((m_current > 0) && (m_buffer[m_current-1].vnSym == vnl_o || m_buffer[m_current-1].vnSym == vnl_O)) // oo
+        {
+            ev.evType = vneNormal;
+            return processAppend(ev);
+        }
+        ev.evType = vneRoof_o;
+        return processRoof(ev);
+    case vnl_or: // o^
+    case vnl_Or: // O^
+        ev.evType = vneHook_o;;
+        return processHook(ev);
+    case vnl_oh: // o*
+    case vnl_Oh: // O*
+        ev.evType = vneHook_o;;
+        return processHook(ev);
+    default:
+        return processAppend(ev);
+    }
+}
+
+
+//----------------------------------------------------------
+int UxEngine::processToneFlex_dispatch(int tone, UkKeyEvent & ev)
+{
+  // 0 = clear
+  // 1 = sac
+  // 2 = huyen
+  // 3 = hoi
+  // 4 = nga
+  // 5 = nang
+  const int map_tone[6][2] = {
+    {2,1}, {0,3}, {5,4}, {0,0}, {0,0}, {0,0}
+  };
+  int index = (ev.vnSym == vnl_k || ev.vnSym == vnl_K);
+  ev.tone = map_tone[tone][index];
+  return processTone(ev);
+}
+
+
+//----------------------------------------------------------
+int UxEngine::processToneFlex(UkKeyEvent & ev)
+{
+    if (m_current < 0 || !m_pCtrl->vietKey)
+        return processAppend(ev);
+
+    if (m_buffer[m_current].form == vnw_c &&
+        (m_buffer[m_current].cseq == cs_gi || m_buffer[m_current].cseq == cs_gin)) {
+        int p = (m_buffer[m_current].cseq == cs_gi)? m_current : m_current - 1;
+        return processToneFlex_dispatch( m_buffer[p].tone, ev);
+    }
+
+    if (m_buffer[m_current].vOffset < 0)
+        return processAppend(ev);
+
+    int vEnd;
+    VowelSeq vs;
+
+    vEnd = m_current - m_buffer[m_current].vOffset;
+    vs = m_buffer[vEnd].vseq;
+    VowelSeqInfo & info = VSeqList[vs];
+    if (m_pCtrl->options.spellCheckEnabled && !m_pCtrl->options.freeMarking && !info.complete)
+        return processAppend(ev);
+
+    if (m_buffer[m_current].form == vnw_vc || m_buffer[m_current].form == vnw_cvc) {
+        ConSeq cs = m_buffer[m_current].cseq;
+        if ((cs == cs_c || cs == cs_ch || cs == cs_p || cs == cs_t) &&
+            (ev.tone == 2 || ev.tone == 3 || ev.tone == 4))
+            return processAppend(ev); // c, ch, p, t suffixes don't allow ` ? ~
+    }
+
+    int toneOffset = getTonePosition(vs, vEnd == m_current);
+    int tonePos = vEnd - (info.len -1 ) + toneOffset;
+    return processToneFlex_dispatch(m_buffer[tonePos].tone, ev);
 }
 
 //----------------------------------------------------------

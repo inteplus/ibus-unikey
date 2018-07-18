@@ -205,14 +205,13 @@ DllExport UkKeyMapping MsViMethodMapping[] = {
 };
 
 DllExport UkKeyMapping EnviMethodMapping[] = {
-    {'D', vneRestore},
-    {'K', vneTone1},
-    {'Q', vneTone2},
-    {'B', vneTone3},
-    {'X', vneTone4},
-    {'V', vneTone5},
-    {'Z', vneRoofAllAndDd},
-    {'J', vneHookAll},
+    {'J', vneToneFlex},
+    {'K', vneToneFlex},
+    {'A', vneAll_a},
+    {'D', vneDd},
+    {'E', vneRoof_e},
+    {'O', vneAll_o},
+    {'U', vneHook_u},
     {0, vneNormal}
 };
 
