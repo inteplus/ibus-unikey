@@ -41,7 +41,7 @@ enum UkKeyEvName {
   vneAll_a, // vneRoof_a and vneBowl
   vneAll_o, // vneRoof_o and vneHook_o
   vneHook_ao, // vneBowl and vneHook_o
-  vneToneFlex, // vneTone0 ... vneTone5
+  vneToneFlex, // vneTone0 ... vneTone5, for Envi
   vneCount //just to count how many event types there are
 };
 

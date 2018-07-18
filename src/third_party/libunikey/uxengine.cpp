@@ -1023,21 +1023,47 @@ int UxEngine::processHookAO(UkKeyEvent & ev)
 
 
 //----------------------------------------------------------
-int UxEngine::processToneFlex_dispatch(int tone, UkKeyEvent & ev)
+int UxEngine::processToneFlex_dispatch(int tonePos, UkKeyEvent & ev)
 {
-  // 0 = clear
-  // 1 = sac
-  // 2 = huyen
-  // 3 = hoi
-  // 4 = nga
-  // 5 = nang
-  const int map_tone[6][2] = {
-    {2,1}, {-1,3}, {5,4}, {-1,-1}, {-1,-1}, {-1,-1}
-  };
-  int index = (ev.vnSym == vnl_k || ev.vnSym == vnl_K);
-  ev.tone = map_tone[tone][index];
-  if (ev.tone < 0) ev.tone = tone;
-  return processTone(ev);
+    // 0 = clear
+    // 1 = sac
+    // 2 = huyen
+    // 3 = hoi
+    // 4 = nga
+    // 5 = nang
+    const int map_tone[6][2] = {
+        {2,1}, {-1,4}, {3,-1}, {-1,-1}, {-1,-1}, {-1,-1}
+    };
+
+    int index = -1;
+    switch (ev.vnSym) {
+    case vnl_q:
+    case vnl_Q:
+        index = 0;
+        break;
+    case vnl_j:
+    case vnl_J:
+        index = 1;
+        break;
+    default:
+        break;
+    }
+    if (index < 0) return 0;
+
+    int tone = m_buffer[tonePos].tone;
+    ev.tone = map_tone[tone][index];
+    if (ev.tone < 0)
+    {
+        ev.tone = 0;
+        markChange(tonePos);
+        m_buffer[tonePos].tone = 0;
+        m_singleMode = false;
+        processAppend(ev);
+        m_reverted = true;
+        return 1;
+    }
+
+    return processTone(ev);
 }
 
 
@@ -1050,7 +1076,7 @@ int UxEngine::processToneFlex(UkKeyEvent & ev)
     if (m_buffer[m_current].form == vnw_c &&
         (m_buffer[m_current].cseq == cs_gi || m_buffer[m_current].cseq == cs_gin)) {
         int p = (m_buffer[m_current].cseq == cs_gi)? m_current : m_current - 1;
-        return processToneFlex_dispatch( m_buffer[p].tone, ev);
+        return processToneFlex_dispatch(p, ev);
     }
 
     if (m_buffer[m_current].vOffset < 0)
@@ -1074,7 +1100,7 @@ int UxEngine::processToneFlex(UkKeyEvent & ev)
 
     int toneOffset = getTonePosition(vs, vEnd == m_current);
     int tonePos = vEnd - (info.len -1 ) + toneOffset;
-    return processToneFlex_dispatch(m_buffer[tonePos].tone, ev);
+    return processToneFlex_dispatch(tonePos, ev);
 }
 
 //----------------------------------------------------------
