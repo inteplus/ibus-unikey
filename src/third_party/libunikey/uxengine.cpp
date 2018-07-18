@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
+#include <fstream>
 #include "keycons.h"
 
 /*
@@ -35,6 +36,11 @@
 #include "uxengine.h"
 
 using namespace std;
+
+ofstream outlog()
+{
+    return ofstream("/tmp/uxengine.log", ios_base::app);
+}
 
 //TODO: auto-complete: e.g. luan -> lua^n
 
@@ -1031,8 +1037,12 @@ int UxEngine::processToneFlex_dispatch(int tonePos, UkKeyEvent & ev)
     // 3 = hoi
     // 4 = nga
     // 5 = nang
+
+    // Q = nang/5 hoi/3
+    // J = sac/1 nga/4
+
     const int map_tone[6][2] = {
-        {2,1}, {-1,4}, {3,-1}, {-1,-1}, {-1,-1}, {-1,-1}
+        {5,1}, {-1,4}, {-1,-1}, {-1,-1}, {-1,-1}, {3,-1}
     };
 
     int index = -1;
@@ -1051,6 +1061,7 @@ int UxEngine::processToneFlex_dispatch(int tonePos, UkKeyEvent & ev)
     if (index < 0) return 0;
 
     int tone = m_buffer[tonePos].tone;
+    // outlog() << "tonePos:" << tonePos << ", index" << index << ", tone=" << tone << endl;
     ev.tone = map_tone[tone][index];
     if (ev.tone < 0)
     {
@@ -1063,6 +1074,11 @@ int UxEngine::processToneFlex_dispatch(int tonePos, UkKeyEvent & ev)
         return 1;
     }
 
+    if(tone > 0) // clean up previous tone before setting a new one
+    {
+        markChange(tonePos);
+        m_buffer[tonePos].tone = 0;
+    }
     return processTone(ev);
 }
 
@@ -1082,21 +1098,9 @@ int UxEngine::processToneFlex(UkKeyEvent & ev)
     if (m_buffer[m_current].vOffset < 0)
         return processAppend(ev);
 
-    int vEnd;
-    VowelSeq vs;
-
-    vEnd = m_current - m_buffer[m_current].vOffset;
-    vs = m_buffer[vEnd].vseq;
+    int vEnd = m_current - m_buffer[m_current].vOffset;
+    VowelSeq vs = m_buffer[vEnd].vseq;
     VowelSeqInfo & info = VSeqList[vs];
-    if (m_pCtrl->options.spellCheckEnabled && !m_pCtrl->options.freeMarking && !info.complete)
-        return processAppend(ev);
-
-    if (m_buffer[m_current].form == vnw_vc || m_buffer[m_current].form == vnw_cvc) {
-        ConSeq cs = m_buffer[m_current].cseq;
-        if ((cs == cs_c || cs == cs_ch || cs == cs_p || cs == cs_t) &&
-            (ev.tone == 2 || ev.tone == 3 || ev.tone == 4))
-            return processAppend(ev); // c, ch, p, t suffixes don't allow ` ? ~
-    }
 
     int toneOffset = getTonePosition(vs, vEnd == m_current);
     int tonePos = vEnd - (info.len -1 ) + toneOffset;
