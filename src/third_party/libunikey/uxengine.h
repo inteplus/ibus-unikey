@@ -40,14 +40,34 @@ public:
         m_keyCheckFunc = pFunc;
     }
 
+    // Returns whether the cursor is at the beginning of a word.
     bool atWordBeginning();
 
+    // Processes a new key code
+    // Inputs:
+    //   keyCode: key code
+    //     0..255: ASCII code
+    //     256 and above: I am not sure
+    // Outputs:
+    //   backs: number of backspaces to remove letters
+    //   outBuf: array of output letters
+    //   outSize: size of outBuf
+    //   outType: letter type, character or key codes. Default is characters
     int process(unsigned int keyCode, int & backs, unsigned char *outBuf, int & outSize, UkOutputType & outType);
-    void pass(int keyCode); //just pass through without filtering
+
+    // Processes a key code just like when we type in English. No filtering.
+    void pass(int keyCode);
+
+    // Forces Vietnamese typing mode within this word.
     void setSingleMode();
 
+    // Processes backspace letter. Outputs are the same as in the process() function.
     int processBackspace(int & backs, unsigned char *outBuf, int & outSize, UkOutputType & outType);
+
+    // Resets the engine internally, i.e. clearing the buffer
     void reset();
+
+    // Returns the current Vietnamese letters back to their English keystrokes.
     int restoreKeyStrokes(int & backs, unsigned char *outBuf, int & outSize, UkOutputType & outType);
 
     //following methods must be public just to enable the use of pointers to them
@@ -62,6 +82,8 @@ public:
     int processMapChar(UkKeyEvent & ev);
     int processTelexW(UkKeyEvent & ev);
     int processEscChar(UkKeyEvent & ev);
+    int processRestore(UkKeyEvent & ev);
+    int processRoofAndDd(UkKeyEvent & ev);
 
 protected:
     static bool m_classInit;

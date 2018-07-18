@@ -60,7 +60,9 @@ UxKeyProc UxKeyProcList[vneCount] = {
     &UxEngine::processTelexW,  //vne_telex_w
     &UxEngine::processMapChar, //vneMapChar
     &UxEngine::processEscChar, //vneEscChar
-    &UxEngine::processAppend   //vneNormal
+    &UxEngine::processAppend,  //vneNormal
+    &UxEngine::processRestore, //vneRestore
+    &UxEngine::processRoofAndDd //vneHookAndDd
 };
 
 
@@ -907,6 +909,22 @@ int UxEngine::processAppend(UkKeyEvent & ev)
     }
 
     return ret;
+}
+
+//----------------------------------------------------------
+int UxEngine::processRestore(UkKeyEvent & ev)
+{
+    // MT-TODO: expand me
+    return processAppend(ev);
+}
+
+//----------------------------------------------------------
+int UxEngine::processRoofAndDd(UkKeyEvent & ev)
+{
+    if (!m_pCtrl->vietKey || m_current < 0)
+        return processAppend(ev);
+
+    return m_buffer[m_current].vnSym == vnl_d? processDd(ev): processRoof(ev);
 }
 
 //----------------------------------------------------------

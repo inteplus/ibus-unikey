@@ -36,6 +36,8 @@ enum UkKeyEvName {
   vneMapChar, //e.g. [ -> u+ , ] -> o+
   vneEscChar,
   vneNormal, //does not belong to any of the above categories
+  vneRestore, //restores all keystrokes
+  vneRoofAllAndDd, // vneRoofAll and vneDd
   vneCount //just to count how many event types there are
 };
 
