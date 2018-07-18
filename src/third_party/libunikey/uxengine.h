@@ -86,6 +86,7 @@ public:
     int processRoofAndDd(UkKeyEvent & ev);
     int processAllA(UkKeyEvent & ev);
     int processAllO(UkKeyEvent & ev);
+    int processHookAO(UkKeyEvent & ev);
     int processToneFlex(UkKeyEvent & ev);
     int processToneFlex_dispatch(int tone, UkKeyEvent & ev);
 

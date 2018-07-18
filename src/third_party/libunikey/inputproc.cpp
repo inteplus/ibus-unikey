@@ -207,10 +207,11 @@ DllExport UkKeyMapping MsViMethodMapping[] = {
 DllExport UkKeyMapping EnviMethodMapping[] = {
     {'J', vneToneFlex},
     {'K', vneToneFlex},
-    {'A', vneAll_a},
+    {'A', vneRoof_a},
+    {'Q', vneHook_ao},
     {'D', vneDd},
     {'E', vneRoof_e},
-    {'O', vneAll_o},
+    {'O', vneRoof_o},
     {'U', vneHook_u},
     {0, vneNormal}
 };

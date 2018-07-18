@@ -65,6 +65,7 @@ UxKeyProc UxKeyProcList[vneCount] = {
     &UxEngine::processRoofAndDd, //vneHookAndDd
     &UxEngine::processAllA,  //vneAll_a
     &UxEngine::processAllO,  //vneAll_o
+    &UxEngine::processHookAO,  //vneHook_ao
     &UxEngine::processToneFlex   //vneToneFlex
 };
 
@@ -992,6 +993,36 @@ int UxEngine::processAllO(UkKeyEvent & ev)
 
 
 //----------------------------------------------------------
+int UxEngine::processHookAO(UkKeyEvent & ev)
+{
+    if (!m_pCtrl->vietKey || m_current < 0)
+        return processAppend(ev);
+
+    switch (m_buffer[m_current].vnSym)
+    {
+    case vnl_a: // a
+    case vnl_A: // A
+    case vnl_ar: // a^
+    case vnl_Ar: // A^
+    case vnl_ab: // a*
+    case vnl_Ab: // A*
+        ev.evType = vneBowl;
+        return processHook(ev);
+    case vnl_o: // o
+    case vnl_O: // O
+    case vnl_or: // o^
+    case vnl_Or: // O^
+    case vnl_oh: // o*
+    case vnl_Oh: // O*
+        ev.evType = vneHook_o;
+        return processHook(ev);
+    default:
+        return processAppend(ev);
+    }
+}
+
+
+//----------------------------------------------------------
 int UxEngine::processToneFlex_dispatch(int tone, UkKeyEvent & ev)
 {
   // 0 = clear
@@ -1001,10 +1032,11 @@ int UxEngine::processToneFlex_dispatch(int tone, UkKeyEvent & ev)
   // 4 = nga
   // 5 = nang
   const int map_tone[6][2] = {
-    {2,1}, {0,3}, {5,4}, {0,0}, {0,0}, {0,0}
+    {2,1}, {-1,3}, {5,4}, {-1,-1}, {-1,-1}, {-1,-1}
   };
   int index = (ev.vnSym == vnl_k || ev.vnSym == vnl_K);
   ev.tone = map_tone[tone][index];
+  if (ev.tone < 0) ev.tone = tone;
   return processTone(ev);
 }
 

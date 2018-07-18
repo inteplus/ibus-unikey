@@ -65,6 +65,7 @@ UkKeyProc UkKeyProcList[vneCount] = {
     &UkEngine::processAppend,  //vneRoofAllAndDd
     &UkEngine::processAppend,  //vneAll_a
     &UkEngine::processAppend,  //vneAll_o
+    &UkEngine::processAppend,  //vneHook_ao
     &UkEngine::processAppend   //vneToneFlex
 };
 
