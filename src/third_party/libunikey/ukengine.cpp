@@ -927,11 +927,11 @@ int UkEngine::processToneFlex_dispatch(int tonePos, UkKeyEvent & ev)
     // 4 = nga
     // 5 = nang
 
-    // Q = nang/5 hoi/3
-    // J = sac/1 nga/4
+    // Q = sac/1 nga/4
+    // J = nang/5 hoi/3
 
     const int map_tone[6][2] = {
-        {5,1}, {5,4}, {5,1}, {-1,1}, {5,-1}, {3,1}
+        {1,5}, {4,5}, {1,5}, {1,-1}, {-1,5}, {1,3}
     };
 
     int index = -1;
