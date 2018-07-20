@@ -66,8 +66,9 @@ UkKeyProc UkKeyProcList[vneCount] = {
     &UkEngine::processTelexW,  //vne_telex_w
     &UkEngine::processMapChar, //vneMapChar
     &UkEngine::processEscChar, //vneEscChar
+    &UkEngine::processToneFlex,//vneToneFlex
+    &UkEngine::processOFlex,   //vneOFlex
     &UkEngine::processAppend,  //vneNormal
-    &UkEngine::processToneFlex //vneToneFlex
 };
 
 
@@ -993,6 +994,24 @@ int UkEngine::processToneFlex(UkKeyEvent & ev)
     int toneOffset = getTonePosition(vs, vEnd == m_current);
     int tonePos = vEnd - (info.len -1 ) + toneOffset;
     return processToneFlex_dispatch(tonePos, ev);
+}
+
+//----------------------------------------------------------
+int UkEngine::processOFlex(UkKeyEvent & ev)
+{
+    if (m_current < 0 || !m_pCtrl->vietKey)
+        return processAppend(ev);
+
+    switch (m_buffer[m_current].vnSym) {
+    case vnl_uh:
+    case vnl_Uh:
+        ev.evType = vneHook_o;
+        processHook(ev);
+        return processHook(ev);
+    default:
+        ev.evType = vneRoof_o;
+        return processRoof(ev);
+    }
 }
 
 //----------------------------------------------------------

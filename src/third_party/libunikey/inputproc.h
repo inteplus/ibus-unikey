@@ -35,8 +35,9 @@ enum UkKeyEvName {
   vne_telex_w, //special for telex
   vneMapChar, //e.g. [ -> u+ , ] -> o+
   vneEscChar,
-  vneNormal, //does not belong to any of the above categories
   vneToneFlex, // vneTone0 ... vneTone5, for Envi
+  vneOFlex, // flexible vneHook_o and vneRoof_o, for Envi
+  vneNormal, //does not belong to any of the above categories
   vneCount //just to count how many event types there are
 };
 
