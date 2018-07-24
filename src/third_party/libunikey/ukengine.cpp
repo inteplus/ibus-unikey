@@ -64,7 +64,6 @@ UkKeyProc UkKeyProcList[vneCount] = {
     &UkEngine::processTelexW,  //vne_telex_w
     &UkEngine::processMapChar, //vneMapChar
     &UkEngine::processEscChar, //vneEscChar
-    &UkEngine::processToneFlex,//vneToneFlex
     &UkEngine::processOFlex,   //vneOFlex
     &UkEngine::processAppend,  //vneNormal
 };
@@ -914,84 +913,6 @@ int UkEngine::processAppend(UkKeyEvent & ev)
     }
 
     return ret;
-}
-
-//----------------------------------------------------------
-int UkEngine::processToneFlex_dispatch(int tonePos, UkKeyEvent & ev)
-{
-    // 0 = ngang
-    // 1 = sac
-    // 2 = huyen
-    // 3 = hoi
-    // 4 = nga
-    // 5 = nang
-
-    // Q = sac/1 nga/4
-    // J = nang/5 hoi/3
-
-    const int map_tone[6][2] = {
-        {1,5}, {4,5}, {1,5}, {1,-1}, {-1,5}, {1,3}
-    };
-
-    int index = -1;
-    switch (ev.vnSym) {
-    case vnl_q:
-    case vnl_Q:
-        index = 0;
-        break;
-    case vnl_j:
-    case vnl_J:
-        index = 1;
-        break;
-    default:
-        break;
-    }
-    if (index < 0) return 0;
-
-    int tone = m_buffer[tonePos].tone;
-    // outlog() << "tonePos:" << tonePos << ", index" << index << ", tone=" << tone << endl;
-    ev.tone = map_tone[tone][index];
-    if (ev.tone < 0)
-    {
-        ev.tone = 0;
-        markChange(tonePos);
-        m_buffer[tonePos].tone = 0;
-        m_singleMode = false;
-        processAppend(ev);
-        m_reverted = true;
-        return 1;
-    }
-
-    if(tone > 0) // clean up previous tone before setting a new one
-    {
-        markChange(tonePos);
-        m_buffer[tonePos].tone = 0;
-    }
-    return processTone(ev);
-}
-
-//----------------------------------------------------------
-int UkEngine::processToneFlex(UkKeyEvent & ev)
-{
-    if (m_current < 0 || !m_pCtrl->vietKey)
-        return processAppend(ev);
-
-    if (m_buffer[m_current].form == vnw_c &&
-        (m_buffer[m_current].cseq == cs_gi || m_buffer[m_current].cseq == cs_gin)) {
-        int p = (m_buffer[m_current].cseq == cs_gi)? m_current : m_current - 1;
-        return processToneFlex_dispatch(p, ev);
-    }
-
-    if (m_buffer[m_current].vOffset < 0)
-        return processAppend(ev);
-
-    int vEnd = m_current - m_buffer[m_current].vOffset;
-    VowelSeq vs = m_buffer[vEnd].vseq;
-    VowelSeqInfo & info = VSeqList[vs];
-
-    int toneOffset = getTonePosition(vs, vEnd == m_current);
-    int tonePos = vEnd - (info.len -1 ) + toneOffset;
-    return processToneFlex_dispatch(tonePos, ev);
 }
 
 //----------------------------------------------------------

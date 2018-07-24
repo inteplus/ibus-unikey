@@ -108,8 +108,6 @@ public:
     int processMapChar(UkKeyEvent & ev);
     int processTelexW(UkKeyEvent & ev);
     int processEscChar(UkKeyEvent & ev);
-    int processToneFlex(UkKeyEvent & ev);
-    int processToneFlex_dispatch(int tone, UkKeyEvent & ev);
     int processOFlex(UkKeyEvent & ev);
 
 protected:
