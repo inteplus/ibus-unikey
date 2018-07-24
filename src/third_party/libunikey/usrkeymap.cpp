@@ -24,7 +24,6 @@
 #include <iostream>
 #include <cstring>
 #include <cstdio>
-using namespace std;
 
 #include <ctype.h>
 #include "usrkeymap.h"
@@ -159,7 +158,7 @@ DllExport int UkLoadKeyOrderMap(const char *fileName, UkKeyMapPair *pMap, int *p
 
     f = fopen(fileName, "r");
     if (f == 0) {
-        cerr << "Failed to open file: " << fileName << endl;
+        std::cerr << "Failed to open file: " << fileName << std::endl;
         return 0;
     }
 
@@ -188,7 +187,7 @@ DllExport int UkLoadKeyOrderMap(const char *fileName, UkKeyMapPair *pMap, int *p
                             //already assigned, don't accept this map
                             break;
                         }
-                        //cout << "key: " << c << " value: " << UkEvLabelList[i].ev << endl; //DEBUG
+                        //cout << "key: " << c << " value: " << UkEvLabelList[i].ev << std::endl; //DEBUG
                         keyMap[c] = UkEvLabelList[i].ev;
                         pMap[mapCount].action = UkEvLabelList[i].ev;
                         if (keyMap[c] < vneCount) {
@@ -203,12 +202,12 @@ DllExport int UkLoadKeyOrderMap(const char *fileName, UkKeyMapPair *pMap, int *p
                     }
                 }
                 if (i == UkEvLabelCount) {
-                    cerr << "Error in user key layout, line " << lineCount << ": command not found" << endl;
+                    std::cerr << "Error in user key layout, line " << lineCount << ": command not found" << std::endl;
                 }
             }
             else {
-                cerr << "Error in user key layout, line " << lineCount 
-                     << ": key name is not a single character" << endl;	
+                std::cerr << "Error in user key layout, line " << lineCount
+                     << ": key name is not a single character" << std::endl;
             }
         }
     }
@@ -240,7 +239,7 @@ DllExport int UkStoreKeyOrderMap(const char *fileName, UkKeyMapPair *pMap, int m
 
     f = fopen(fileName, "wt");
     if (f == 0) {
-        cerr << "Failed to open file: " << fileName << endl;
+        std::cerr << "Failed to open file: " << fileName << std::endl;
         return 0;
     }
 

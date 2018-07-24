@@ -28,7 +28,6 @@
 #include "mactab.h"
 #include "vnconv.h"
 
-using namespace std;
 #define UKMACRO_VERSION_UTF8 1
 
 //---------------------------------------------------------------

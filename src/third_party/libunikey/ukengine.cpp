@@ -35,13 +35,11 @@
 
 #include "ukengine.h"
 
-using namespace std;
-
 //TODO: auto-complete: e.g. luan -> lua^n
 
-ofstream outlog()
+std::ofstream outlog()
 {
-    return ofstream("/tmp/uxengine.log", ios_base::app);
+    return std::ofstream("/tmp/uxengine.log", std::ios_base::app);
 }
 
 typedef int (UkEngine::* UkKeyProc)(UkKeyEvent & ev);

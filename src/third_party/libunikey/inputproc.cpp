@@ -24,8 +24,6 @@
 #include <iostream>
 #include "inputproc.h"
 
-using namespace std;
-
 /*
 unsigned char WordBreakSyms[] = {
 	',', ';', ':', '.', '\"', '\'', '!', '?', ' ',
