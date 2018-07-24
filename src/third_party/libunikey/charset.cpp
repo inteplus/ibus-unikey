@@ -20,11 +20,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 --------------------------------------------------------------------------------*/
 
-#include <stddef.h>
-#include <search.h>
-#include <memory.h>
-#include <ctype.h>
-#include <stdlib.h>
+#include <cstddef>
+#include <cstring>
+#include <cctype>
+#include <cstdlib>
 
 #include "charset.h"
 #include "data.h"

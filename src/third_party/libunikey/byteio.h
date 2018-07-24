@@ -4,7 +4,7 @@
 
 
 //#include "vnconv.h"
-#include <stdio.h>
+#include <cstdio>
 
 typedef unsigned char UKBYTE;
 typedef unsigned short UKWORD;

@@ -22,8 +22,8 @@
  */
 
 #include <iostream>
-#include <string.h>
-#include <stdio.h>
+#include <cstring>
+#include <cstdio>
 using namespace std;
 
 #include <ctype.h>

@@ -21,8 +21,8 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 #include <iostream>
 #include <fstream>
 #include "keycons.h"

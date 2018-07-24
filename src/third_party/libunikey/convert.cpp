@@ -20,16 +20,16 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 --------------------------------------------------------------------------------*/
 
-#include "charset.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
 #if defined(_WIN32)
 	#include <io.h>
 	#include <fcntl.h>
 #endif
 
+#include "charset.h"
 #include "vnconv.h"
 
 int vnFileStreamConvert(int inCharset, int outCharset, FILE * inf, FILE *outf);
