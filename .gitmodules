@@ -1,0 +1,3 @@
+[submodule "src/third_party/libunikey"]
+	path = src/third_party/libunikey
+	url = git@bitbucket.org:mtpham/libunikey
