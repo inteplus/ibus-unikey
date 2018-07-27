@@ -17,6 +17,7 @@ This variant contains Envi, an input method modified from Telex to support typin
 * q for hook tone (hỏi)
 * x for tilde tone (ngã) (like Telex)
 * j for dot tone (nặng) (like Telex)
+These letters were chosen to minimise the probability of hitting an English bigram (using the English and Vietnamese Wikipedia corpora) and to preserve/enhance the fast typing pace of Telex.
 
 Build Status
 ------------
