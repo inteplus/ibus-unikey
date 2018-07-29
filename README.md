@@ -12,9 +12,9 @@ This variant contains Envi, an input method modified from Telex to support typin
 * oo for ô
 * ol for ơ
 * uu for ư
-* k for acute tone (sắc)
+* q for acute tone (sắc)
 * z for grave tone (huyền)
-* q for hook tone (hỏi)
+* k for hook tone (hỏi)
 * x for tilde tone (ngã) (like Telex)
 * j for dot tone (nặng) (like Telex)
 These letters were chosen to minimise the probability of hitting an English bigram (using the English and Vietnamese Wikipedia corpora) and to preserve/enhance the fast typing pace of Telex.
