@@ -1,5 +1,7 @@
 ### Phiên bản nhái từ ibus-unikey của Lê Quốc Tuấn. Tuy nhiên có thêm bộ gõ Envi để gõ trộn lẫn tiếng Anh và tiếng Việt.
 
+### Repo not yet usable. Migrating from https://github.com/inteplus/ibus-unikey-gtk2.git repo.
+
 This variant contains Envi, an input method modified from Telex to support typing both English and Vietnamese more easily than Telex. You type:
 
 Single key stroke for a tone with lowest probability of hitting an English bigram
