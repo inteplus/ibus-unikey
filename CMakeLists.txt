@@ -26,11 +26,11 @@ add_definitions(
 )
 
 include_directories(
-    ${PROJECT_SOURCE_DIR}/ukengine
+    ${PROJECT_SOURCE_DIR}/src/3rd-party/libunikey/src
     ${PROJECT_SOURCE_DIR}/src/config
 )
 
-add_subdirectory(ukengine)
+add_subdirectory(src/3rd-party/libunikey)
 add_subdirectory(src)
 add_subdirectory(setup)
 add_subdirectory(data)

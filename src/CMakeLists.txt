@@ -8,7 +8,7 @@ add_executable(ibus-engine-unikey
     engine.cpp
 )
 target_link_libraries(ibus-engine-unikey
-    ukengine
+    libunikey
     unikey-config
     ${IBUS_LIBRARIES}
 )

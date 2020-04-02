@@ -7,7 +7,7 @@ add_executable(ibus-setup-unikey
     macro_utils.cpp
 )
 target_link_libraries(ibus-setup-unikey
-    ukengine
+    libunikey
     unikey-config
     ${GTK3_LIBRARIES}
 )
