@@ -26,6 +26,10 @@
         <col id="0">stelex2</col>
         <col id="1" translatable="yes">Simple Telex 2</col>
       </row>
+      <row>
+        <col id="0">envi</col>
+        <col id="1" translatable="yes">Envi</col>
+      </row>
     </data>
   </object>
   <object class="GtkListStore" id="list_macro">

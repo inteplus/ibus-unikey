@@ -25,6 +25,7 @@ const std::map<const std::string, std::pair<UkInputMethod, const gchar*>> input_
     { "vni",     { UkVni,          "VNI" } },
     { "stelex",  { UkSimpleTelex,  "STelex" } },
     { "stelex2", { UkSimpleTelex2, "STelex 2" } },
+    { "envi",    { UkEnvi,         "Envi" } },
 };
 
 const std::map<const std::string, std::pair<unsigned int, const gchar*>> output_charset_map {
