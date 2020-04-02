@@ -1,0 +1,3 @@
+[submodule "src/3rd-party/libunikey"]
+	path = src/3rd-party/libunikey
+	url = git@github.com:inteplus/libunikey.git
