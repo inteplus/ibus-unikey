@@ -9,6 +9,7 @@
         <choice value='vni'/>
         <choice value='stelex'/>
         <choice value='stelex2'/>
+        <choice value='envi'/>
       </choices>
       <default>'telex'</default>
       <summary>Input Method</summary>
